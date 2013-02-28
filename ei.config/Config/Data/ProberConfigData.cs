@@ -1,0 +1,174 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml;
+using System.IO;
+
+namespace EI.Config
+{
+    public class ProberConfigData : BaseConfigData<ProberConfigData>
+    {
+        #region private fields
+
+        private string activeProber;
+        private int proberTimeout;
+        private bool simulatorEnabled;
+
+        private bool isProbeCleanEnabled;
+        private int probeCleanCount;
+        private bool isProbeXyScrub;
+
+        private List<string> proberIdList;
+
+        private Eg2001ConfigData eg2001ConfigData;
+        private Eg4090ConfigData eg4090ConfigData;
+        private GsiConfigData gsiConfigData;
+        private Kla1007ConfigData kla1007ConfigData;
+        private Telp8ConfigData telp8ConfigData;
+        private Uf2000ConfigData uf2000ConfigData;
+        private VirtualProberConfigData virtualProberConfigData;
+
+        #endregion
+
+        #region constructor
+
+        public ProberConfigData()
+            : base() 
+        {
+            proberIdList = new List<string>();
+
+            eg2001ConfigData = new Eg2001ConfigData();
+            eg4090ConfigData = new Eg4090ConfigData();
+            gsiConfigData = new GsiConfigData();
+            kla1007ConfigData = new Kla1007ConfigData();
+            telp8ConfigData = new Telp8ConfigData();
+            uf2000ConfigData = new Uf2000ConfigData();
+            virtualProberConfigData = new VirtualProberConfigData();
+
+            childList.Add(eg2001ConfigData as IBaseConfigData);
+            childList.Add(eg4090ConfigData as IBaseConfigData);
+            childList.Add(gsiConfigData as IBaseConfigData);
+            childList.Add(kla1007ConfigData as IBaseConfigData);
+            childList.Add(telp8ConfigData as IBaseConfigData);
+            childList.Add(uf2000ConfigData as IBaseConfigData);
+            childList.Add(virtualProberConfigData as IBaseConfigData);
+
+            SetDefault();
+        }
+
+        #endregion
+
+        #region public methods
+
+        public override void SetDefault()
+        {
+            activeProber = string.Empty;
+            proberTimeout = 30;
+            simulatorEnabled = false;
+
+            isProbeCleanEnabled = false;
+            probeCleanCount = 1000;
+            isProbeXyScrub = false;
+
+            foreach (IBaseConfigData child in childList)
+                child.SetDefault();
+        }
+
+        public void ClearProberIdList()
+        {
+            ClearList(proberIdList);
+        }
+
+        public void AddToProberIdList(string proberId)
+        {
+            AddToList(proberIdList, proberId);
+        }
+
+        public void AddRangeToProberIdList(List<string> proberIdRangeList)
+        {
+            AddRangeToList(proberIdList, proberIdRangeList);
+        }
+
+        #endregion
+
+        #region properties
+
+        public string ActiveProber
+        {
+            get { return activeProber; }
+            set { SetValue(ref activeProber, value); }
+        }
+
+        public int Timeout
+        {
+            get { return proberTimeout; }
+            set { SetValue(ref proberTimeout, value); }
+        }
+
+        public bool SimulatorEnabled
+        {
+            get { return simulatorEnabled; }
+            set { SetValue(ref simulatorEnabled, value); }
+        }
+
+        public bool IsProbeCleanEnabled
+        {
+            get { return isProbeCleanEnabled; }
+            set { SetValue(ref isProbeCleanEnabled, value); }
+        }
+
+        public int ProbeCleanCount
+        {
+            get { return probeCleanCount; }
+            set { SetValue(ref probeCleanCount, value); }
+        }
+
+        public bool IsProbeXyScrub
+        {
+            get { return isProbeXyScrub; }
+            set { SetValue(ref isProbeXyScrub, value); }
+        }
+
+        public Eg2001ConfigData Eg2001
+        {
+            get { return eg2001ConfigData; }
+        }
+
+        public Eg4090ConfigData Eg4090
+        {
+            get { return eg4090ConfigData; }
+        }
+
+        public GsiConfigData Gsi
+        {
+            get { return gsiConfigData; }
+        }
+
+        public Kla1007ConfigData Kla1007
+        {
+            get { return kla1007ConfigData; }
+        }
+
+        public Telp8ConfigData Telp8
+        {
+            get { return telp8ConfigData; }
+        }
+
+        public Uf2000ConfigData Uf2000
+        {
+            get { return uf2000ConfigData; }
+        }
+
+        public VirtualProberConfigData Virtual
+        {
+            get { return virtualProberConfigData; }
+        }
+
+        public IList<string> ProberIdList
+        {
+            get { return proberIdList.AsReadOnly(); }
+        }
+
+        #endregion
+    }
+}

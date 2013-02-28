@@ -1,0 +1,46 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.IO;
+using System.Xml;
+using System.Drawing;
+
+namespace Mapper.Common
+{
+    internal class DriverXmlBinder : BaseXmlBinder
+    {
+        #region public methods
+
+        public void LoadSerial(XmlDocument xmlDoc, string prefix, SerialPortConfigData configData)
+        {
+            configData.PortName = GetString(xmlDoc, prefix + "PortName", configData.PortName);
+            configData.BaudRate = GetInt(xmlDoc, prefix + "BaudRate", configData.BaudRate);
+            configData.Parity = GetEnum(xmlDoc, prefix + "Parity", configData.Parity);
+            configData.DataBits = GetInt(xmlDoc, prefix + "DataBits", configData.DataBits);
+            configData.StopBits = GetEnum(xmlDoc, prefix + "StopBit", configData.StopBits);
+            configData.Separator = GetString(xmlDoc, prefix + "Separator", configData.Separator);
+        }
+
+        public void LoadGpib(XmlDocument xmlDoc, string prefix, GpibConfigData configData)
+        {
+            configData.IsController = GetBool(xmlDoc, prefix + "SystemController", configData.IsController);
+            configData.BoardIndex = GetInt(xmlDoc, prefix + "BoardIndex", configData.BoardIndex);
+            configData.BoardPrimaryAddress = GetInt(xmlDoc, prefix + "BoardPrimaryAddress", configData.BoardPrimaryAddress);
+            configData.BoardSecondaryAddress = GetInt(xmlDoc, prefix + "BoardSecondaryAddress", configData.BoardSecondaryAddress);
+            configData.DevicePrimaryAddress = GetInt(xmlDoc, prefix + "DevicePrimaryAddress", configData.DevicePrimaryAddress);
+            configData.DeviceSecondaryAddress = GetInt(xmlDoc, prefix + "DeviceSecondaryAddress", configData.DeviceSecondaryAddress);
+            configData.IsEOI = GetBool(xmlDoc, prefix + "Eoi", configData.IsEOI);
+            configData.IsEOS = GetBool(xmlDoc, prefix + "Eos", configData.IsEOS);
+            configData.EightBitEOS = GetBool(xmlDoc, prefix + "Eos8b", configData.EightBitEOS);
+            configData.EosChar = (byte)GetInt(xmlDoc, prefix + "EosChar", configData.EosChar);
+        }
+
+        public void LoadTcpIp(XmlDocument xmlDoc, string prefix, TcpIpConfigData configData)
+        {
+            configData.HostName = GetString(xmlDoc, prefix + "HostName", configData.HostName);
+            configData.Port = GetInt(xmlDoc, prefix + "Port", configData.Port);
+        }
+
+        #endregion
+    }
+}

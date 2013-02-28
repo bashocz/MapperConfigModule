@@ -1,0 +1,61 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace EI.Config
+{
+    // edge die inking
+    public class EiConfigData : BaseConfigData<EiConfigData>
+    {
+        #region private fields
+
+        private bool enabled;
+        private EdgeInkingMode mode;
+        private int numberOfDie;
+
+        #endregion
+
+        #region constructors
+
+        public EiConfigData()
+            : base()
+        {
+            SetDefault();
+        }
+
+        #endregion
+
+        #region public methods
+
+        public override void SetDefault()
+        {
+            enabled = false;
+            mode = EdgeInkingMode.Fixed;
+            numberOfDie = 0;
+        }
+
+        #endregion
+
+        #region properties
+
+        public bool Enabled
+        {
+            get { return enabled; }
+            set { SetValue(ref enabled, value); }
+        }
+
+        public EdgeInkingMode Mode
+        {
+            get { return mode; }
+            set { SetEnumValue(ref mode, value); }
+        }
+
+        public int NumberOfDie
+        {
+            get { return numberOfDie; }
+            set { SetValue(ref numberOfDie, value); }
+        }
+
+        #endregion
+    }
+}

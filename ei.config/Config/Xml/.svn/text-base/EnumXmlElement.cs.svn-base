@@ -1,0 +1,53 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Mapper.Common
+{
+    /// <summary>
+    /// Self managed XmlElement with enum value. Enum type is determined from the default value.
+    /// </summary>
+    public class EnumXmlElement<T> : ValueXmlElement // where T : Enum // not possible
+    {
+        #region constructors
+
+        /// <summary>
+        /// Creates the new instance.
+        /// </summary>
+        /// <param name="name">The name of the element.</param>
+        /// <param name="defaultValue">The default enum value for the element.</param>
+        public EnumXmlElement(string name, T defaultValue)
+            : base(name, defaultValue)
+        {
+            if (!(defaultValue is Enum))
+                throw new InvalidOperationException("Generic type T must be of type enum, is: " + typeof(T));
+        }
+
+        #endregion
+
+        #region protected methods
+
+        protected override object ParseValue(string text)
+        {
+            if (text == null)
+                throw new ArgumentNullException("The string value to parse the enum value from is null.");
+
+            return Enum.Parse(typeof(T), text.Trim());
+        }
+
+        #endregion
+
+        #region properties
+
+        /// <summary>
+        /// The enum value of the element.
+        /// </summary>
+        public T Value
+        {
+            get { return (T)ElementValue; }
+            set { ElementValue = value; }
+        }
+
+        #endregion
+    }
+}

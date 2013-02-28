@@ -1,0 +1,49 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Mapper.Common
+{
+    internal class XmlOldMapEdit : XmlOldBase
+    {
+        #region private fields
+
+        private BooleanXmlElement enableMapEdit;
+        private IntegerXmlElement replaceBinElement;
+
+        #endregion
+
+        #region constructors
+
+        public XmlOldMapEdit()
+        {
+            configElement = new SelfManagedXmlElement("MapEdit");
+            configElement.ClearAllChildren = true;
+            rootElement.AddChild(configElement);
+
+            enableMapEdit = new BooleanXmlElement("EnableMapEdit", false);
+            configElement.AddChild(enableMapEdit);
+
+            replaceBinElement = new IntegerXmlElement("ReplaceBin", 100);
+            configElement.AddChild(replaceBinElement);
+        }
+
+        #endregion
+
+        #region public properties
+
+        public bool EnableMapEdit
+        {
+            get { return enableMapEdit.Value; }
+            set { enableMapEdit.Value = value; }
+        }
+
+        public int ReplaceBinValue
+        {
+            get { return replaceBinElement.Value; }
+            set { replaceBinElement.Value = value; }
+        }
+
+        #endregion
+    }
+}

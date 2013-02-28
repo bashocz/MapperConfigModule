@@ -1,0 +1,60 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.IO.Ports;
+
+namespace Mapper.Common
+{
+    internal class XmlOldEg2001 : XmlOldBase
+    {
+        #region private fields
+
+        private SelfManagedXmlElement proberElement;
+        private SelfManagedXmlElement probersElement;
+        private SelfManagedXmlElement egElement;
+
+        private XmlOldSerial serialElement;
+
+        private BooleanXmlElement enableManualMicroCoordsChangeElement;
+
+        #endregion
+
+        #region constructors
+
+        public XmlOldEg2001()
+        {
+            proberElement = new SelfManagedXmlElement("Prober");
+            rootElement.AddChild(proberElement);
+
+            probersElement = new SelfManagedXmlElement("Probers");
+            proberElement.AddChild(probersElement);
+
+            egElement = new SelfManagedXmlElement("EG2001");
+            egElement.ClearAllChildren = true;
+            probersElement.AddChild(egElement);
+
+            serialElement = new XmlOldSerial();
+            egElement.AddChild(serialElement.XmlNode);
+
+            enableManualMicroCoordsChangeElement = new BooleanXmlElement("EnableManualMicroCoordsChange", false);
+            egElement.AddChild(enableManualMicroCoordsChangeElement);
+        }
+
+        #endregion
+
+        #region public properties
+
+        public XmlOldSerial Serial
+        {
+            get { return serialElement; }
+        }
+
+        public bool EnableManualMicroCoordsChange
+        {
+            get { return enableManualMicroCoordsChangeElement.Value; }
+            set { enableManualMicroCoordsChangeElement.Value = value; }
+        }
+
+        #endregion
+    }
+}

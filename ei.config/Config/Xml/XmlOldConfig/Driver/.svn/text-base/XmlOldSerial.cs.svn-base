@@ -1,0 +1,97 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.IO.Ports;
+
+namespace Mapper.Common
+{
+    /// <summary>
+    /// Universal config data for serial port wrapper settings. It is usually used as part of another config data.
+    /// </summary>
+    public class XmlOldSerial
+    {
+        #region private fields
+
+        private SelfManagedXmlNode xmlNode;
+        private StringXmlElement portNameElement;
+        private IntegerXmlElement baudRateElement;
+        private EnumXmlElement<Parity> parityElement;
+        private IntegerXmlElement dataBitsElement;
+        private EnumXmlElement<StopBits> stopBitsElement;
+        private StringXmlElement separatorElement;
+
+        #endregion
+
+        #region constructors
+
+        public XmlOldSerial()
+        {
+            xmlNode = new SelfManagedXmlElement("SerialPort");
+
+            portNameElement = new StringXmlElement("PortName", "COM1");
+            xmlNode.AddChild(portNameElement);
+
+            baudRateElement = new IntegerXmlElement("BaudRate", 19200);
+            xmlNode.AddChild(baudRateElement);
+
+            parityElement = new EnumXmlElement<Parity>("Parity", Parity.None);
+            xmlNode.AddChild(parityElement);
+
+            dataBitsElement = new IntegerXmlElement("DataBits", 7);
+            xmlNode.AddChild(dataBitsElement);
+
+            stopBitsElement = new EnumXmlElement<StopBits>("StopBit", StopBits.One);
+            xmlNode.AddChild(stopBitsElement);
+
+            separatorElement = new StringXmlElement("Separator", "\\LF");
+            xmlNode.AddChild(separatorElement);
+        }
+
+        #endregion
+
+        #region properties
+
+        public SelfManagedXmlNode XmlNode
+        {
+            get { return xmlNode; }
+        }
+
+        public string PortName
+        {
+            get { return portNameElement.Value; }
+            set { portNameElement.Value = value; }
+        }
+
+        public int BaudRate
+        {
+            get { return baudRateElement.Value; }
+            set { baudRateElement.Value = value; }
+        }
+
+        public Parity Parity
+        {
+            get { return parityElement.Value; }
+            set { parityElement.Value = value; }
+        }
+
+        public int DataBits
+        {
+            get { return dataBitsElement.Value; }
+            set { dataBitsElement.Value = value; }
+        }
+
+        public StopBits StopBits
+        {
+            get { return stopBitsElement.Value; }
+            set { stopBitsElement.Value = value; }
+        }
+
+        public string Separator
+        {
+            get { return separatorElement.Value; }
+            set { separatorElement.Value = value; }
+        }
+
+        #endregion
+    }
+}

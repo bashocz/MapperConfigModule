@@ -1,0 +1,319 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace EI.Config
+{
+    internal class XmlOldVirtualProber : XmlOldBase
+    {
+        #region private fields
+
+        private SelfManagedXmlElement proberElement;
+        private SelfManagedXmlElement probersElement;
+        private SelfManagedXmlElement vpElement;
+
+        private IntegerXmlElement connectElement;
+        private IntegerXmlElement disconnectElement;
+        private IntegerXmlElement initElement;
+        private IntegerXmlElement writeSettingElement;
+        private IntegerXmlElement readSettingElement;
+        private IntegerXmlElement writeAlignmentElement;
+        private IntegerXmlElement readAlignmentElement;
+        private IntegerXmlElement startLotElement;
+        private IntegerXmlElement endLotElement;
+        private IntegerXmlElement loadWaferElement;
+        private IntegerXmlElement unloadWaferElement;
+        private IntegerXmlElement startWaferElement;
+        private IntegerXmlElement endWaferElement;
+        private IntegerXmlElement getWaferIdElement;
+        private IntegerXmlElement moveToElement;
+        private IntegerXmlElement inkDieElement;
+        private IntegerXmlElement contactElement;
+        private IntegerXmlElement uncontactElement;
+        private IntegerXmlElement recontactElement;
+        private IntegerXmlElement testCompleteElement;
+        private IntegerXmlElement pauseElement;
+        private IntegerXmlElement continueElement;
+        private IntegerXmlElement abortElement;
+        private IntegerXmlElement showMessageElement;
+        private IntegerXmlElement clearMessageElement;
+        private IntegerXmlElement buzzerOnElement;
+        private IntegerXmlElement buzzerOffElement;
+        private IntegerXmlElement forwardCommandElement;
+
+        #endregion
+
+        #region constructors
+
+        public XmlOldVirtualProber()
+        {
+            proberElement = new SelfManagedXmlElement("Prober");
+            rootElement.AddChild(proberElement);
+
+            probersElement = new SelfManagedXmlElement("Probers");
+            proberElement.AddChild(probersElement);
+
+            vpElement = new SelfManagedXmlElement("Virtual");
+            vpElement.ClearAllChildren = true;
+            probersElement.AddChild(vpElement);
+
+            connectElement = new IntegerXmlElement("ConnectDelay", 0);
+            vpElement.AddChild(connectElement);
+
+            disconnectElement = new IntegerXmlElement("DisconnectDelay", 0);
+            vpElement.AddChild(disconnectElement);
+
+            initElement = new IntegerXmlElement("InitDelay", 1000);
+            vpElement.AddChild(initElement);
+
+            writeSettingElement = new IntegerXmlElement("WriteSettingDelay", 0);
+            vpElement.AddChild(writeSettingElement);
+
+            readSettingElement = new IntegerXmlElement("ReadSettingDelay", 0);
+            vpElement.AddChild(readSettingElement);
+
+            writeAlignmentElement = new IntegerXmlElement("WriteAlignmentDelay", 0);
+            vpElement.AddChild(writeAlignmentElement);
+
+            readAlignmentElement = new IntegerXmlElement("ReadAlignemtDelay", 0);
+            vpElement.AddChild(readAlignmentElement);
+
+            startLotElement = new IntegerXmlElement("StartLotDelay", 2000);
+            vpElement.AddChild(startLotElement);
+
+            endLotElement = new IntegerXmlElement("EndLotDelay", 0);
+            vpElement.AddChild(endLotElement);
+
+            loadWaferElement = new IntegerXmlElement("LoadWaferDelay", 1000);
+            vpElement.AddChild(loadWaferElement);
+
+            unloadWaferElement = new IntegerXmlElement("UnloadWaferDelay", 1000);
+            vpElement.AddChild(unloadWaferElement);
+
+            startWaferElement = new IntegerXmlElement("StartWaferDelay", 0);
+            vpElement.AddChild(startWaferElement);
+
+            endWaferElement = new IntegerXmlElement("EndWaferDelay", 0);
+            vpElement.AddChild(endWaferElement);
+
+            getWaferIdElement = new IntegerXmlElement("GetWaferIdDelay", 0);
+            vpElement.AddChild(getWaferIdElement);
+
+            moveToElement = new IntegerXmlElement("MoveToDelay", 0);
+            vpElement.AddChild(moveToElement);
+
+            inkDieElement = new IntegerXmlElement("InkDieDelay", 10);
+            vpElement.AddChild(inkDieElement);
+
+            contactElement = new IntegerXmlElement("ContactDelay", 0);
+            vpElement.AddChild(contactElement);
+
+            uncontactElement = new IntegerXmlElement("UncontactDelay", 0);
+            vpElement.AddChild(uncontactElement);
+
+            recontactElement = new IntegerXmlElement("RecontactDelay", 0);
+            vpElement.AddChild(recontactElement);
+
+            testCompleteElement = new IntegerXmlElement("TestCompleteDelay", 0);
+            vpElement.AddChild(testCompleteElement);
+
+            pauseElement = new IntegerXmlElement("PauseDelay", 0);
+            vpElement.AddChild(pauseElement);
+
+            continueElement = new IntegerXmlElement("ContinueDelay", 0);
+            vpElement.AddChild(continueElement);
+
+            abortElement = new IntegerXmlElement("AbortDelay", 0);
+            vpElement.AddChild(abortElement);
+
+            showMessageElement = new IntegerXmlElement("ShowMessageDelay", 10);
+            vpElement.AddChild(showMessageElement);
+
+            clearMessageElement = new IntegerXmlElement("ClearMessageDelay", 10);
+            vpElement.AddChild(clearMessageElement);
+
+            buzzerOnElement = new IntegerXmlElement("BuzzerOnDelay", 50);
+            vpElement.AddChild(buzzerOnElement);
+
+            buzzerOffElement = new IntegerXmlElement("BuzzerOffDelay", 50);
+            vpElement.AddChild(buzzerOffElement);
+
+            forwardCommandElement = new IntegerXmlElement("ForwardCommandDelay", 0);
+            vpElement.AddChild(forwardCommandElement);
+        }
+
+        #endregion
+
+        #region public properties
+
+        public int ConnectDelay
+        {
+            get { return connectElement.Value; }
+            set { connectElement.Value = value; }
+        }
+
+        public int DisconnectDelay
+        {
+            get { return disconnectElement.Value; }
+            set { disconnectElement.Value = value; }
+        }
+
+        public int InitDelay
+        {
+            get { return initElement.Value; }
+            set { initElement.Value = value; }
+        }
+
+        public int WriteSettingDelay
+        {
+            get { return writeSettingElement.Value; }
+            set { writeSettingElement.Value = value; }
+        }
+
+        public int ReadSettingDelay
+        {
+            get { return readSettingElement.Value; }
+            set { readSettingElement.Value = value; }
+        }
+
+        public int WriteAlignmentDelay
+        {
+            get { return writeAlignmentElement.Value; }
+            set { writeAlignmentElement.Value = value; }
+        }
+
+        public int ReadAlignmentDelay
+        {
+            get { return readAlignmentElement.Value; }
+            set { readAlignmentElement.Value = value; }
+        }
+
+        public int StartLotDelay
+        {
+            get { return startLotElement.Value; }
+            set { startLotElement.Value = value; }
+        }
+
+        public int EndLotDelay
+        {
+            get { return endLotElement.Value; }
+            set { endLotElement.Value = value; }
+        }
+
+        public int LoadWaferDelay
+        {
+            get { return loadWaferElement.Value; }
+            set { loadWaferElement.Value = value; }
+        }
+
+        public int UnloadWaferDelay
+        {
+            get { return unloadWaferElement.Value; }
+            set { unloadWaferElement.Value = value; }
+        }
+
+        public int StartWaferDelay
+        {
+            get { return startWaferElement.Value; }
+            set { startWaferElement.Value = value; }
+        }
+
+        public int EndWaferDelay
+        {
+            get { return endWaferElement.Value; }
+            set { endWaferElement.Value = value; }
+        }
+
+        public int GetWaferIdDelay
+        {
+            get { return getWaferIdElement.Value; }
+            set { getWaferIdElement.Value = value; }
+        }
+
+        public int MoveToDelay
+        {
+            get { return moveToElement.Value; }
+            set { moveToElement.Value = value; }
+        }
+
+        public int InkDieDelay
+        {
+            get { return inkDieElement.Value; }
+            set { inkDieElement.Value = value; }
+        }
+
+        public int ContactDelay
+        {
+            get { return contactElement.Value; }
+            set { contactElement.Value = value; }
+        }
+
+        public int UncontactDelay
+        {
+            get { return uncontactElement.Value; }
+            set { uncontactElement.Value = value; }
+        }
+
+        public int RecontactDelay
+        {
+            get { return recontactElement.Value; }
+            set { recontactElement.Value = value; }
+        }
+
+        public int TestCompleteDelay
+        {
+            get { return testCompleteElement.Value; }
+            set { testCompleteElement.Value = value; }
+        }
+
+        public int PauseDelay
+        {
+            get { return pauseElement.Value; }
+            set { pauseElement.Value = value; }
+        }
+
+        public int ContinueDelay
+        {
+            get { return continueElement.Value; }
+            set { continueElement.Value = value; }
+        }
+
+        public int AbortDelay
+        {
+            get { return abortElement.Value; }
+            set { abortElement.Value = value; }
+        }
+
+        public int ShowMessageDelay
+        {
+            get { return showMessageElement.Value; }
+            set { showMessageElement.Value = value; }
+        }
+
+        public int ClearMessageDelay
+        {
+            get { return clearMessageElement.Value; }
+            set { clearMessageElement.Value = value; }
+        }
+
+        public int BuzzerOnDelay
+        {
+            get { return buzzerOnElement.Value; }
+            set { buzzerOnElement.Value = value; }
+        }
+
+        public int BuzzerOffDelay
+        {
+            get { return buzzerOffElement.Value; }
+            set { buzzerOffElement.Value = value; }
+        }
+
+        public int ForwardCommandDelay
+        {
+            get { return forwardCommandElement.Value; }
+            set { forwardCommandElement.Value = value; }
+        }
+
+        #endregion
+    }
+}

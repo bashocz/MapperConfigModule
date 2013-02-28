@@ -1,0 +1,237 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml;
+
+namespace EI.Config
+{
+    public abstract class ValueListData<T> : BaseData where T : BaseData, new()
+    {
+        #region private fields
+
+        protected T item;
+        protected string itemPrefix;
+        protected string itemDescription;
+
+        protected BaseData template;
+
+        protected List<T> defaultValueList;
+        protected List<T> currentValueList;
+
+        protected bool changed;
+        protected bool wasRead;
+        protected bool hasValue;
+
+        #endregion
+
+        #region constructors
+
+        protected ValueListData(ConfigType configType, string prefix, string name, string description, string editor, string itemPrefix, string itemDescription)
+            : base(configType, prefix, name, description, editor)
+        {
+            //item = new T(configType, itemPrefix, "", itemDescription, "");
+
+            this.itemPrefix = itemPrefix;
+            this.itemDescription = itemDescription;
+
+            defaultValueList = new List<T>();
+            currentValueList = new List<T>();
+
+            changed =
+            wasRead =
+            hasValue = false;
+        }
+
+        #endregion
+
+        #region protected methods
+
+        protected bool GetValue(XmlDocument xmlDoc, out List<T> itemList)
+        {
+            itemList = new List<T>();
+
+            XmlNodeList nodeList = xmlDoc.GetElementsByTagName(FullName);
+            foreach (XmlNode node in nodeList)
+            {
+                if (node is XmlElement)
+                {
+                    XmlElement itemElement = node as XmlElement;
+                    T item = GetItemValue(itemElement, itemPrefix);
+                    if (item != null)
+                        itemList.Add(item);
+                }
+            }
+
+            return true;
+        }
+
+        protected abstract T GetItemValue(XmlElement xmlElement, string prefix);
+        protected abstract string GetItemTemplate(string offset, string prefix, string description);
+        protected abstract string GetItemData(string offset, string prefix, T item);
+
+        #endregion
+
+        #region public methods
+
+        public virtual void ClearList()
+        {
+            currentValueList.Clear();
+            hasValue = true;
+            changed = true;
+            DataChanged();
+        }
+
+        public virtual void AddToList(T value)
+        {
+            currentValueList.Add(value);
+            hasValue = true;
+            changed = true;
+            DataChanged();
+        }
+
+        public virtual void AddRangeToList(List<T> valueList)
+        {
+            currentValueList.AddRange(valueList);
+            hasValue = true;
+            changed = true;
+            DataChanged();
+        }
+
+        public virtual void UpdateList(List<T> valueList)
+        {
+            currentValueList.Clear();
+            currentValueList.AddRange(valueList);
+            hasValue = true;
+            changed = true;
+            DataChanged();
+        }
+
+        public virtual void ShakeList()
+        {
+            if (currentValueList.Count > 1)
+            {
+                List<T> resultList = new List<T>();
+                Random random = new Random();
+                for (int idx = 0; idx < currentValueList.Count; idx++)
+                {
+                    int newIdx = random.Next(resultList.Count + 1);
+                    if (newIdx > resultList.Count)
+                        newIdx = resultList.Count;
+                    resultList.Insert(newIdx, currentValueList[idx]);
+                }
+                currentValueList.Clear();
+                currentValueList.AddRange(resultList);
+                hasValue = true;
+                changed = true;
+                DataChanged();
+            }
+        }
+
+        public override string GetTemplate(string offset, ConfigType configType)
+        {
+            string result = string.Empty;
+
+            if ((this.configType & configType) != ConfigType.None)
+            {
+                result += offset + "<Item name=\"" + FullName + "\" ";
+                result += "datatype=\"" + DataType + "\" ";
+                result += "description=\"" + Description + "\">" + Environment.NewLine;
+                result += GetItemTemplate(offset + "  ", itemPrefix, itemDescription);
+                result += offset + "</Item>" + Environment.NewLine;
+            }
+
+            return result;
+        }
+
+        public override string GetData(string offset, ConfigType configType)
+        {
+            string result = string.Empty;
+
+            if ((this.configType & configType) != ConfigType.None)
+            {
+                if (currentValueList.Count > 0)
+                {
+                    result += offset + BeginTarget() + Environment.NewLine;
+                    for (int idx = 0; idx < currentValueList.Count; idx++)
+                        result += GetItemData(offset + "  ", itemPrefix, currentValueList[idx]);
+                    result += offset + EndTarget() + Environment.NewLine;
+                }
+                else
+                    result += offset + EmptyTarget() + Environment.NewLine;
+            }
+
+            return result;
+        }
+
+        public override void SetData(XmlDocument xmlDoc)
+        {
+            try
+            {
+                wasRead = false;
+                List<T> readValueList;
+                if (GetValue(xmlDoc, out readValueList))
+                {
+                    currentValueList.Clear();
+                    currentValueList.AddRange(readValueList);
+                    wasRead = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogIt.Error("Exception during reading '" + FullName + "': ", ex);
+            }
+        }
+
+        public override void CurrentAsDefault()
+        {
+            defaultValueList.Clear();
+            defaultValueList.AddRange(currentValueList);
+        }
+
+        public override void RevertToDefault()
+        {
+            currentValueList.Clear();
+            currentValueList.AddRange(defaultValueList);
+            hasValue = true;
+            changed = true;
+            DataChanged();
+        }
+
+        #endregion
+
+        #region public properties
+
+        public override string DataType
+        {
+            get { return "list"; }
+        }
+
+        protected IList<T> Value
+        {
+            get { return currentValueList.AsReadOnly(); }
+        }
+
+        protected IList<T> Default
+        {
+            get { return defaultValueList.AsReadOnly(); }
+        }
+
+        public override bool Changed
+        {
+            get { return changed; }
+            set { changed = value; }
+        }
+
+        public override bool HasValue
+        {
+            get { return hasValue; }
+        }
+
+        public override bool WasRead
+        {
+            get { return wasRead; }
+        }
+
+        #endregion
+    }
+}

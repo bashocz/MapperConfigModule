@@ -1,0 +1,76 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml;
+
+namespace EI.Config
+{
+    public class KeithleyConfigData : BaseConfigData<KeithleyConfigData>
+    {
+        #region private fields
+
+        private string scriptFileName;
+        private string csvOutputDir;
+
+        private GpibConfigData gpib;
+
+        #endregion
+
+        #region constructors
+
+        public KeithleyConfigData()
+            : base()
+        {
+            gpib = new GpibConfigData();
+
+            childList.Add(gpib as IBaseConfigData);
+
+            SetDefault();
+        }
+
+        #endregion
+
+        #region public methods
+
+        public override void SetDefault()
+        {
+            scriptFileName =
+            csvOutputDir = string.Empty;
+
+            foreach (IBaseConfigData child in childList)
+                child.SetDefault();
+        }
+
+        #endregion
+
+        #region properties
+
+        /// <summary>
+        /// Gets or sets file name of script which contains tests and is uploaded to tester
+        /// </summary>
+        public string ScriptFileName
+        {
+            get { return scriptFileName; }
+            set { SetValue(ref scriptFileName, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets csv output directory
+        /// </summary>
+        public string CsvOutputDir
+        {
+            get { return csvOutputDir; }
+            set { SetValue(ref csvOutputDir, value); }
+        }
+
+        /// <summary>
+        /// Sub configuration data for GPIB.
+        /// </summary>
+        public GpibConfigData Gpib
+        {
+            get { return gpib; }
+        }
+
+        #endregion
+    }
+}

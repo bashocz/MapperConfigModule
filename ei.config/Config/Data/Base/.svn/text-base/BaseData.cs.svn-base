@@ -1,0 +1,125 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml;
+
+namespace Mapper.Common
+{
+    public abstract class BaseData
+    {
+        #region private fields
+
+        protected readonly ConfigType configType;
+
+        private readonly string prefix;
+        private readonly string name;
+
+        private readonly string description;
+        private readonly string editor;
+
+        protected int fireEvent;
+        protected DataChangedDelegate dataChangedDelegate;
+
+        #endregion
+
+        #region constructors
+
+        protected BaseData(ConfigType configType, string prefix, string name, string description, string editor)
+        {
+            this.configType = configType;
+
+            this.prefix = prefix;
+            this.name = name;
+
+            this.description = description;
+            this.editor = editor;
+
+            this.fireEvent = 0;
+            this.dataChangedDelegate = null;
+        }
+
+        #endregion
+
+        #region private methods
+
+        protected virtual void DataChanged()
+        {
+            if ((fireEvent == 0) && (Changed) && (dataChangedDelegate != null))
+                dataChangedDelegate();
+        }
+
+        #endregion
+
+        #region public methods
+
+        public delegate void DataChangedDelegate();
+        public virtual void SetDataChanged(DataChangedDelegate dataChanged)
+        {
+            dataChangedDelegate = dataChanged;
+        }
+
+        public virtual void BeginUpdate()
+        {
+            fireEvent++;
+        }
+
+        public virtual void EndUpdate()
+        {
+            fireEvent--;
+            if (fireEvent < 0)
+                fireEvent = 0;
+        }
+
+        public string BeginTarget()
+        {
+            return "<" + FullName + ">";
+        }
+
+        public string EndTarget()
+        {
+            return "</" + FullName + ">";
+        }
+
+        public string EmptyTarget()
+        {
+            return "<" + FullName + "/>";
+        }
+
+        public abstract string GetTemplate(string offset, ConfigType configType);
+        public abstract string GetData(string offset, ConfigType configType);
+        public abstract void SetData(XmlDocument xmlDoc);
+        public abstract void CurrentAsDefault();
+        public abstract void RevertToDefault();
+
+        #endregion
+
+        #region public properties
+
+        public ConfigType ConfigType
+        {
+            get { return configType; }
+        }
+
+        public string FullName
+        {
+            get { return prefix + name; }
+        }
+
+        public string Description
+        {
+            get { return description; }
+        }
+
+        public string Editor
+        {
+            get { return editor; }
+        }
+
+        public abstract string DataType { get; }
+        public abstract bool Changed { get; set; }
+        public abstract bool HasValue { get; }
+        public abstract bool WasRead { get; }
+
+        #endregion
+    }
+}

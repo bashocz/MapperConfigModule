@@ -1,0 +1,36 @@
+using System;
+using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Mapper.Common
+{
+    /// <summary>
+    /// Static class holds the most important objects of program.
+    /// </summary>
+    public static class Holder
+    {
+        #region private fields
+
+        /// <summary>
+        /// A Syste.Windows.Forms.Form that represents
+        /// the MainForm object.
+        /// </summary>
+        private static Form mainForm;
+
+        #endregion
+
+        #region public properties
+
+        /// <summary>
+        /// Gets or sets the reference to MainForm object.
+        /// </summary>
+        public static Form MainForm
+        {
+            get { return mainForm; }
+            set { mainForm = value; }
+        }
+
+        #endregion
+    }
+}

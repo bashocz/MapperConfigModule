@@ -1,0 +1,220 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml;
+using System.IO;
+
+namespace Mapper.Common
+{
+    public class TesterConfigData : BaseConfigData<TesterConfigData>
+    {
+        #region private fields
+
+        private string activeTester;
+        private int testerTimeout;
+        private bool simulatorEnabled;
+
+        private List<Bin> defaultBinList;
+
+        private List<string> testerIdList;
+
+        private DtsConfigData dtsConfigData;
+        private EagleConfigData eagleConfigData;
+        private FetConfigData fetConfigData;
+        private PftConfigData pftConfigData;
+        private TmtConfigData tmtConfigData;
+        private VersatestConfigData versatestConfigData;
+        private DualVersatestConfigData dualVersatestConfigData;
+        private KeithleyConfigData keithleyConfigData;
+        private HpConfigData hpConfigData;
+        private MaverickConfigData maverickConfigData;
+        private PeiConfigData peiConfigData;
+        private PowertechConfigData powertechConfigData;
+        private VirtualTesterConfigData virtualTesterConfigData;
+
+        #endregion
+
+        #region constructor
+
+        public TesterConfigData()
+            : base() 
+        {
+            testerIdList = new List<string>();
+
+            dtsConfigData = new DtsConfigData();
+            eagleConfigData = new EagleConfigData();
+            fetConfigData = new FetConfigData();
+            pftConfigData = new PftConfigData();
+            tmtConfigData = new TmtConfigData();
+            versatestConfigData = new VersatestConfigData();
+            dualVersatestConfigData = new DualVersatestConfigData();
+            keithleyConfigData = new KeithleyConfigData();
+            hpConfigData = new HpConfigData();
+            maverickConfigData = new MaverickConfigData();
+            peiConfigData = new PeiConfigData();
+            powertechConfigData = new PowertechConfigData();
+            virtualTesterConfigData = new VirtualTesterConfigData();
+
+            childList.Add(dtsConfigData as IBaseConfigData);
+            childList.Add(eagleConfigData as IBaseConfigData);
+            childList.Add(fetConfigData as IBaseConfigData);
+            childList.Add(pftConfigData as IBaseConfigData);
+            childList.Add(tmtConfigData as IBaseConfigData);
+            childList.Add(versatestConfigData as IBaseConfigData);
+            childList.Add(dualVersatestConfigData as IBaseConfigData);
+            childList.Add(keithleyConfigData as IBaseConfigData);
+            childList.Add(hpConfigData as IBaseConfigData);
+            childList.Add(maverickConfigData as IBaseConfigData);
+            childList.Add(peiConfigData as IBaseConfigData);
+            childList.Add(powertechConfigData as IBaseConfigData);
+            childList.Add(virtualTesterConfigData as IBaseConfigData);
+
+            SetDefault();
+        }
+
+        #endregion
+
+        #region public methods
+
+        public override void SetDefault()
+        {
+            activeTester = string.Empty;
+            testerTimeout = 30;
+            simulatorEnabled = false;
+
+            defaultBinList = new List<Bin>();
+
+            foreach (IBaseConfigData child in childList)
+                child.SetDefault();
+        }
+
+        public void ClearDefaultBinList()
+        {
+            ClearList(defaultBinList);
+        }
+
+        public void AddToDefaultBinList(Bin bin)
+        {
+            AddToList(defaultBinList, bin);
+        }
+
+        public void AddRangeToDefaultBinList(List<Bin> binRangeList)
+        {
+            AddRangeToList(defaultBinList, binRangeList);
+        }
+
+        public void ClearTesterIdList()
+        {
+            ClearList(testerIdList);
+        }
+
+        public void AddToTesterIdList(string testerId)
+        {
+            AddToList(testerIdList, testerId);
+        }
+
+        public void AddRangeToTesterIdList(List<string> testerIdRangeList)
+        {
+            AddRangeToList(testerIdList, testerIdRangeList);
+        }
+
+        #endregion
+
+        #region properties
+
+        public string ActiveTester
+        {
+            get { return activeTester; }
+            set { SetValue(ref activeTester, value); }
+        }
+
+        public int Timeout
+        {
+            get { return testerTimeout; }
+            set { SetValue(ref testerTimeout, value); }
+        }
+
+        public bool SimulatorEnabled
+        {
+            get { return simulatorEnabled; }
+            set { SetValue(ref simulatorEnabled, value); }
+        }
+
+        public IList<Bin> DefaultBinList
+        {
+            get { return defaultBinList.AsReadOnly(); }
+        }
+
+        public IList<string> TesterIdList
+        {
+            get { return testerIdList.AsReadOnly(); }
+        }
+
+        public DtsConfigData Dts
+        {
+            get { return dtsConfigData; }
+        }
+
+        public EagleConfigData Eagle
+        {
+            get { return eagleConfigData; }
+        }
+
+        public FetConfigData Fet
+        {
+            get { return fetConfigData; }
+        }
+
+        public PftConfigData Pft
+        {
+            get { return pftConfigData; }
+        }
+
+        public TmtConfigData Tmt
+        {
+            get { return tmtConfigData; }
+        }
+
+        public VersatestConfigData Versatest
+        {
+            get { return versatestConfigData; }
+        }
+
+        public DualVersatestConfigData DualVersatest
+        {
+            get { return dualVersatestConfigData; }
+        }
+
+        public KeithleyConfigData Keithley
+        {
+            get { return keithleyConfigData; }
+        }
+
+        public HpConfigData Hp
+        {
+            get { return hpConfigData; }
+        }
+
+        public MaverickConfigData Maverick
+        {
+            get { return maverickConfigData; }
+        }
+
+        public PeiConfigData Pei
+        {
+            get { return peiConfigData; }
+        }
+        public PowertechConfigData Powertech
+        {
+            get { return powertechConfigData; }
+        }
+
+        public VirtualTesterConfigData Virtual
+        {
+            get { return virtualTesterConfigData; }
+        }
+
+        #endregion
+    }
+}

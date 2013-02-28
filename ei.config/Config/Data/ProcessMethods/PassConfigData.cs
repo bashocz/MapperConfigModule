@@ -1,0 +1,58 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace EI.Config
+{
+    public class PassConfigData : BaseConfigData<PassConfigData>
+    {
+        #region private fields
+
+        private List<Pass> passList;
+
+        #endregion
+
+        #region constructors
+
+        public PassConfigData()
+            : base()
+        {
+            SetDefault();
+        }
+
+        #endregion
+
+        #region public methods
+
+        public override void SetDefault()
+        {
+            passList = new List<Pass>();
+        }
+
+        public void ClearPassList()
+        {
+            ClearList(passList);
+        }
+
+        public void AddToPassList(Pass drawProperty)
+        {
+            AddToList(passList, drawProperty);
+        }
+
+        public void AddRangeToPassList(List<Pass> passRangeList)
+        {
+            AddRangeToList(passList, passRangeList);
+        }
+
+        #endregion
+
+        #region properties
+
+        public IList<Pass> PassList
+        {
+            get { return passList.AsReadOnly(); }
+        }
+
+        #endregion
+    }
+}

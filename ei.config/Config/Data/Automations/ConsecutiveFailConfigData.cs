@@ -1,0 +1,86 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml;
+
+namespace EI.Config
+{
+    /// <summary>
+    /// Configuration data for consecutive fail dice automation functionality.
+    /// </summary>
+    public class ConsecutiveFailConfigData : BaseConfigData<ConsecutiveFailConfigData>
+    {
+        #region private fields
+
+        private bool enabled;
+        private int threshold;
+        private bool resetCounter;
+        private List<ConsecutiveFailCustomRule> customRuleList;
+
+        #endregion
+
+        #region constructors
+
+        public ConsecutiveFailConfigData()
+            : base()
+        {
+            SetDefault();
+        }
+
+        #endregion
+
+        #region public methods
+
+        public override void SetDefault()
+        {
+            enabled = false;
+            threshold = 5;
+            resetCounter = false;
+            customRuleList = new List<ConsecutiveFailCustomRule>();
+        }
+
+        public void ClearCustomRuleList()
+        {
+            ClearList(customRuleList);
+        }
+
+        public void AddToCustomRuleList(ConsecutiveFailCustomRule customRule)
+        {
+            AddToList(customRuleList, customRule);
+        }
+
+        public void AddRangeToCustomRuleList(List<ConsecutiveFailCustomRule> customRuleRangeList)
+        {
+            AddRangeToList(customRuleList, customRuleRangeList);
+        }
+
+        #endregion
+
+        #region properties
+
+        public bool Enabled
+        {
+            get { return enabled; }
+            set { SetValue(ref enabled, value); }
+        }
+
+        public int Threshold
+        {
+            get { return threshold; }
+            set { SetValue(ref threshold, value); }
+        }
+
+        public bool ResetCounterOnEachRow
+        {
+            get { return resetCounter; }
+            set { SetValue(ref resetCounter, value); }
+        }
+
+        public IList<ConsecutiveFailCustomRule> CustomRuleList
+        {
+            get { return customRuleList.AsReadOnly(); }
+        }
+
+        #endregion
+    }
+}

@@ -1,0 +1,576 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Mapper.Common
+{
+    /// <summary>
+    /// Static class represents privileges of the user using the program.
+    /// </summary>
+    public class UserPrivileges
+    {
+        #region private fields
+
+        private bool loginEnabled;
+        private List<string> userPriv;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to view log file.
+        /// </summary>
+        private bool canViewLog;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to control dialog.
+        /// </summary>
+        private bool canControlDialog;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to lot check-in.
+        /// </summary>
+        private bool canCheckIn;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to probe process.
+        /// </summary>
+        private bool canProbeProcess;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to reprobe process.
+        /// </summary>
+        private bool canReprobeProcess;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to ink process.
+        /// </summary>
+        private bool canInkProcess;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to map edit process.
+        /// </summary>
+        private bool canMapEditProcess;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to automated optical inspection process.
+        /// </summary>
+        private bool canAoiProcess;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to pause process.
+        /// </summary>
+        private bool canPauseProcess;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to stop process.
+        /// </summary>
+        private bool canStopProcess;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to load partial map.
+        /// </summary>
+        private bool canLoadPartialMap;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to save partial map.
+        /// </summary>
+        private bool canSavePartialMap;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to reprobe selected die.
+        /// </summary>
+        private bool canReprobeSelected;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to reprobe specified dice.
+        /// </summary>
+        private bool canReprobeSpecified;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to reprobe from position.
+        /// </summary>
+        private bool canReprobeFromPosition;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to reprobe one row.
+        /// </summary>
+        private bool canReprobeOneRow;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to reprobe whole wafer.
+        /// </summary>
+        private bool canReprobeWafer;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to disable automations
+        /// or to change automation settings temporarily during the probe.
+        /// </summary>
+        private bool canOverrideAutomationOptions;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to change main configuration.
+        /// </summary>
+        private bool canChangeMainConfig;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to change all options.
+        /// </summary>
+        private bool canChangeAllOptions;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to change basic options.
+        /// </summary>
+        private bool canChangeBasicOptions;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to change directory options.
+        /// </summary>
+        private bool canChangeDirOptions;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to change process method options.
+        /// </summary>
+        private bool canChangeProcessMethodOptions;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to change database and genesis options.
+        /// </summary>
+        private bool canChangeDbOptions;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to change NewtOn options.
+        /// </summary>
+        private bool canChangeNewtonOptions;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to change automation options.
+        /// </summary>
+        private bool canChangeAutomationOptions;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to change prober ID.
+        /// </summary>
+        private bool canChangeProberId;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to change prober options.
+        /// </summary>
+        private bool canChangeProberOptions;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to change tester ID.
+        /// </summary>
+        private bool canChangeTesterId;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to change tester options.
+        /// </summary>
+        private bool canChangeTesterOptions;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to change privileges options.
+        /// </summary>
+        private bool canEditPrivileges;
+
+        /// <summary>
+        /// A System.Boolean that specifies
+        /// whether user has access to change equipment options.
+        /// </summary>
+        private bool canEditEquipmentOptions;
+
+        #endregion
+
+        #region constructors
+
+        /// <summary>
+        /// Creates object of UserPrivileges.
+        /// </summary>
+        public UserPrivileges(bool enabled, string userPrivileges)
+        {
+            SetPrivileges(enabled, userPrivileges);
+        }
+
+        #endregion
+
+        #region private methods
+
+        private void SetPrivileges(bool enabled, string userPrivileges)
+        {
+            this.loginEnabled = enabled;
+            this.userPriv = new List<string>(userPrivileges.ToUpper().Split(':'));
+
+            bool offline = userPrivileges.ToUpper().Contains("OFFLINE");
+
+            canViewLog = !enabled || offline || userPrivileges.ToUpper().Contains("VIEWLOG");
+            canControlDialog = !enabled || userPrivileges.ToUpper().Contains("CONTROLDIALOG");
+            
+            canCheckIn = !enabled || offline || userPrivileges.ToUpper().Contains("CHECKIN");
+            canProbeProcess = !enabled || offline || userPrivileges.ToUpper().Contains("PROBE");
+            canReprobeProcess = !enabled || offline || userPrivileges.ToUpper().Contains("REPROBE");
+            canInkProcess = !enabled || offline || userPrivileges.ToUpper().Contains("INK");
+            canMapEditProcess = !enabled || offline || userPrivileges.ToUpper().Contains("MAPEDIT");
+            canAoiProcess = !enabled || offline || userPrivileges.ToUpper().Contains("AOI");
+            if (canCheckIn && !canProbeProcess && !CanReprobeProcess && !canInkProcess && !canMapEditProcess && !canAoiProcess)
+                canProbeProcess = true;
+
+            canPauseProcess = !enabled || offline || userPrivileges.ToUpper().Contains("PAUSE");
+            canStopProcess = !enabled || offline || userPrivileges.ToUpper().Contains("STOP");
+            canReprobeSelected = !enabled || offline || userPrivileges.ToUpper().Contains("REPROBESELECTED");
+            canReprobeSpecified = !enabled || offline || userPrivileges.ToUpper().Contains("REPROBESPECIFIED");
+            canReprobeFromPosition = !enabled || offline || userPrivileges.ToUpper().Contains("REPROBEFROMPOSITION");
+            canReprobeOneRow = !enabled || offline || userPrivileges.ToUpper().Contains("REPROBEONEROW");
+            canReprobeWafer = !enabled || offline || userPrivileges.ToUpper().Contains("REPROBEWAFER");
+            canOverrideAutomationOptions = !enabled || offline || userPrivileges.ToUpper().Contains("CANDISABLEAUTOMATIONS");
+
+            canLoadPartialMap = !enabled || offline || userPrivileges.ToUpper().Contains("LOADPARTIALMAP");
+            canSavePartialMap = !enabled || offline || userPrivileges.ToUpper().Contains("SAVEPARTIALMAP");
+
+            canChangeAllOptions = !enabled || userPrivileges.ToUpper().Contains("CANCHANGEALLOPTIONS");
+
+            canChangeMainConfig = !enabled || canChangeAllOptions || userPrivileges.ToUpper().Contains("CANCHANGEMAINCONFIG");
+            
+            canChangeBasicOptions = !enabled || canChangeAllOptions || userPrivileges.ToUpper().Contains("CANCHANGEBASICOPTIONS");
+            canChangeDirOptions = !enabled || canChangeAllOptions || userPrivileges.ToUpper().Contains("CANCHANGEDIROPTIONS");
+            canChangeProcessMethodOptions = !enabled || canChangeAllOptions || userPrivileges.ToUpper().Contains("CANCHANGEPROCESSMETHODOPTIONS");
+            canChangeDbOptions = !enabled || canChangeAllOptions || userPrivileges.ToUpper().Contains("CANCHANGEDBOPTIONS");
+            canChangeNewtonOptions = !enabled || canChangeAllOptions || userPrivileges.ToUpper().Contains("CANCHANGENEWTONOPTIONS");
+            canChangeAutomationOptions = !enabled || canChangeAllOptions || userPrivileges.ToUpper().Contains("CANCHANGEAUTOMATIONOPTIONS");
+            canChangeProberId = !enabled || canChangeAllOptions || userPrivileges.ToUpper().Contains("CANCHANGEPROBERID");
+            canChangeProberOptions = !enabled || canChangeAllOptions || userPrivileges.ToUpper().Contains("CANCHANGEPROBEROPTIONS");
+            canChangeTesterId = !enabled || canChangeAllOptions || userPrivileges.ToUpper().Contains("CANCHANGETESTERID");
+            canChangeTesterOptions = !enabled || canChangeAllOptions || userPrivileges.ToUpper().Contains("CANCHANGETESTEROPTIONS");
+
+
+            canEditPrivileges = !enabled || canChangeAllOptions || userPrivileges.ToUpper().Contains("CANEDITPRIVILEGES");
+            canEditEquipmentOptions = !enabled || canChangeAllOptions || userPrivileges.ToUpper().Contains("CANEDITEQUIPMENTSOPTIONS");
+        }
+
+        #endregion
+
+        #region public methods
+        public bool CanConfigure(string itemName, string level)
+        {
+            if (!loginEnabled)
+            {
+                return true;
+            }
+            itemName = itemName.ToUpper();
+            if (   userPriv.Contains("CANCONFIGURE_*_*")
+                || userPriv.Contains("CANCONFIGURE_" + level + "_*")
+                || userPriv.Contains("CANCONFIGURE_*_" + itemName)
+                || userPriv.Contains("CANCONFIGURE_" + level + "_" + itemName))
+            {
+                return true;
+            }
+            
+            return false;
+        }
+
+        public bool CanConfigureSomething()
+        {
+            if (!loginEnabled)
+            {
+                return true;
+            }
+
+            string found = userPriv.Find(
+                delegate(string str)
+                {
+                    return str != null && str.Contains("CANCONFIGURE_");
+                }
+            );
+            return found != null;
+        }
+        #endregion
+
+        #region properties
+
+        /// <summary>
+        /// Indicates whether user has access to view log.
+        /// </summary>
+        public bool CanViewLog
+        {
+            get { return canViewLog; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to control dialog.
+        /// </summary>
+        public bool CanControlDialog
+        {
+            get { return canControlDialog; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to lot check-in.
+        /// </summary>
+        public bool CanCheckIn
+        {
+            get { return canCheckIn; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to probe process.
+        /// </summary>
+        public bool CanProbeProcess
+        {
+            get { return canProbeProcess; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to reprobe process.
+        /// </summary>
+        public bool CanReprobeProcess
+        {
+            get { return canReprobeProcess; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to ink process.
+        /// </summary>
+        public bool CanInkProcess
+        {
+            get { return canInkProcess; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to map edit process.
+        /// </summary>
+        public bool CanMapEditProcess
+        {
+            get { return canMapEditProcess; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to automated optical inspection process.
+        /// </summary>
+        public bool CanAoiProcess
+        {
+            get { return canAoiProcess; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to pause process.
+        /// </summary>
+        public bool CanPauseProcess
+        {
+            get { return canPauseProcess; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to stop process.
+        /// </summary>
+        public bool CanStopProcess
+        {
+            get { return canStopProcess; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to load partial map.
+        /// </summary>
+        public bool CanLoadPartialMap
+        {
+            get { return canLoadPartialMap; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to save partial map.
+        /// </summary>
+        public bool CanSavePartialMap
+        {
+            get { return canSavePartialMap; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to reprobe selected die.
+        /// </summary>
+        public bool CanReprobeSelected
+        {
+            get { return canReprobeSelected; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to reprobe specified dice.
+        /// </summary>
+        public bool CanReprobeSpecified
+        {
+            get { return canReprobeSpecified; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to reprobe from position.
+        /// </summary>
+        public bool CanReprobeFromPosition
+        {
+            get { return canReprobeFromPosition; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to reprobe one row.
+        /// </summary>
+        public bool CanReprobeOneRow
+        {
+            get { return canReprobeOneRow; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to reprobe wafer.
+        /// </summary>
+        public bool CanReprobeWafer
+        {
+            get { return canReprobeWafer; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to disable automations
+        /// or to change automation settings temporarily during the probe.
+        /// </summary>
+        public bool CanOverrideAutomationOptions
+        {
+            get { return canOverrideAutomationOptions; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to change main configuration.
+        /// </summary>
+        public bool CanChangeMainConfig
+        {
+            get { return canChangeMainConfig; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to change all options.
+        /// </summary>
+        public bool CanChangeAllOptions
+        {
+            get { return canChangeAllOptions; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to change basic options.
+        /// </summary>
+        public bool CanChangeBasicOptions
+        {
+            get { return canChangeBasicOptions; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to change directory options.
+        /// </summary>
+        public bool CanChangeDirOptions
+        {
+            get { return canChangeDirOptions; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to change process method options.
+        /// </summary>
+        public bool CanChangeProcessMethodOptions
+        {
+            get { return canChangeProcessMethodOptions; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to change database and genesis options.
+        /// </summary>
+        public bool CanChangeDbOptions
+        {
+            get { return canChangeDbOptions; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to change NewtOn options.
+        /// </summary>
+        public bool CanChangeNewtonOptions
+        {
+            get { return canChangeNewtonOptions; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to change automation options.
+        /// </summary>
+        public bool CanChangeAutomationOptions
+        {
+            get { return canChangeAutomationOptions; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to change prober ID.
+        /// </summary>
+        public bool CanChangeProberId
+        {
+            get { return canChangeProberId; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to change prober options.
+        /// </summary>
+        public bool CanChangeProberOptions
+        {
+            get { return canChangeProberOptions; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to change tester ID.
+        /// </summary>
+        public bool CanChangeTesterId
+        {
+            get { return canChangeTesterId; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to change tester options.
+        /// </summary>
+        public bool CanChangeTesterOptions
+        {
+            get { return canChangeTesterOptions; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to change privileges options.
+        /// </summary>
+        public bool CanEditPrivileges
+        {
+            get { return canEditPrivileges; }
+        }
+
+        /// <summary>
+        /// Indicates whether user has access to change equipment options.
+        /// </summary>
+        public bool CanEditEquipmentOptions
+        {
+            get { return canEditEquipmentOptions; }
+        }
+
+        #endregion
+    }
+}

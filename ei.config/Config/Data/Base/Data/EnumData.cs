@@ -1,0 +1,57 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml;
+
+namespace EI.Config
+{
+    public class EnumData<T> : ValueData where T : struct, IConvertible
+    {
+        #region constructors
+
+        public EnumData(ConfigType configType, string prefix, string name, string description, string editor, T defaultValue)
+            : base(configType, prefix, name, description, editor, defaultValue) { }
+
+        #endregion
+
+        #region protected methods
+
+        protected override object ParseValue(string value)
+        {
+            return Enum.Parse(typeof(T), value);
+        }
+
+        #endregion
+
+        #region public properties
+
+        public override string DataType
+        {
+            get { return "string"; }
+        }
+
+        public T Value
+        {
+            get
+            {
+                if (currentValue != null)
+                    return (T)currentValue;
+                return (T)Enum.ToObject(typeof(T), 0);
+            }
+            set { SetNewValue(value); }
+        }
+
+        public T Default
+        {
+            get
+            {
+                if (defaultValue != null)
+                    return (T)defaultValue;
+                return (T)Enum.ToObject(typeof(T), 0);
+            }
+            set { defaultValue = value; }
+        }
+
+        #endregion
+    }
+}

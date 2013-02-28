@@ -1,0 +1,57 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml;
+
+namespace Mapper.Common
+{
+    public class StringData : ValueData
+    {
+        #region constructors
+
+        public StringData(ConfigType configType, string prefix, string name, string description, string editor, string defaultValue)
+            : base(configType, prefix, name, description, editor, defaultValue) { }
+
+        #endregion
+
+        #region protected methods
+
+        protected override object ParseValue(string value)
+        {
+            return value;
+        }
+
+        #endregion
+
+        #region public properties
+
+        public override string DataType
+        {
+            get { return "string"; }
+        }
+
+        public string Value
+        {
+            get
+            {
+                if (currentValue != null)
+                    return (string)currentValue;
+                return string.Empty;
+            }
+            set { SetNewValue(value); }
+        }
+
+        public string Default
+        {
+            get
+            {
+                if (defaultValue != null)
+                    return (string)defaultValue;
+                return string.Empty;
+            }
+            set { defaultValue = value; }
+        }
+
+        #endregion
+    }
+}

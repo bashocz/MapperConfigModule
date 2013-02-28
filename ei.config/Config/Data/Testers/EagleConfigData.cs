@@ -1,0 +1,142 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml;
+
+namespace EI.Config
+{
+    public class EagleConfigData : BaseConfigData<EagleConfigData>
+    {
+        #region private fields
+
+        private EagleCommunicationType communicationType;
+        private EagleCommandSet commandSet;
+        private string proberId;
+        private SerialPortConfigData serial;
+        private GpibConfigData gpib;
+        private TcpIpConfigData tcpIp;
+
+        private bool newtonEnabled;
+        private bool idleMode;
+        private SerialPortConfigData newtonSerial;
+        private string newtonFile;
+
+        #endregion
+
+        #region constructors
+
+        public EagleConfigData()
+            : base()
+        {
+            serial = new SerialPortConfigData();
+            gpib = new GpibConfigData();
+            tcpIp = new TcpIpConfigData();
+
+            newtonSerial = new SerialPortConfigData();
+
+            childList.Add(serial as IBaseConfigData);
+            childList.Add(gpib as IBaseConfigData);
+            childList.Add(tcpIp as IBaseConfigData);
+            childList.Add(newtonSerial as IBaseConfigData);
+
+            SetDefault();
+        }
+
+        #endregion
+
+        #region public methods
+
+        public override void SetDefault()
+        {
+            communicationType = EagleCommunicationType.Serial;
+            commandSet = EagleCommandSet.ElectroglasEnhancedMode;
+            proberId = "2001X.EC.249799-121";
+
+            newtonEnabled = false;
+            newtonFile = "";
+
+            foreach (IBaseConfigData child in childList)
+                child.SetDefault();
+        }
+
+        #endregion
+
+        #region properties
+
+        /// <summary>
+        /// The type of the communication used to communicate with a prober.
+        /// </summary>
+        public EagleCommunicationType CommunicationType
+        {
+            get { return communicationType; }
+            set { SetEnumValue(ref communicationType, value); }
+        }
+
+        /// <summary>
+        /// The set of commands used to control a prober.
+        /// </summary>
+        public EagleCommandSet CommandSet
+        {
+            get { return commandSet; }
+            set { SetEnumValue(ref commandSet, value); }
+        }
+
+        /// <summary>
+        /// Prober ID as it can be returned to Eagle, e.g. 2001 or 4090.
+        /// </summary>
+        public string ProberId
+        {
+            get { return proberId; }
+            set { SetValue(ref proberId, value); }
+        }
+
+        /// <summary>
+        /// Sub configuration data for serial port.
+        /// </summary>
+        public SerialPortConfigData Serial
+        {
+            get { return serial; }
+        }
+
+        /// <summary>
+        /// Sub configuration data for GPIB.
+        /// </summary>
+        public GpibConfigData Gpib
+        {
+            get { return gpib; }
+        }
+
+        /// <summary>
+        /// Sub configuration data for TCP/IP.
+        /// </summary>
+        public TcpIpConfigData TcpIp
+        {
+            get { return tcpIp; }
+        }
+
+        // TODO temporary configuration properties for Newton
+        public bool NewtonEnabled
+        {
+            get { return newtonEnabled; }
+            set { SetValue(ref newtonEnabled, value); }
+        }
+
+        public bool IdleMode
+        {
+            get { return idleMode; }
+            set { idleMode = value; }
+        }
+
+        public SerialPortConfigData NewtonSerial
+        {
+            get { return newtonSerial; }
+        }
+        public string NewtonCacheFileName
+        {
+            get { return newtonFile; }
+            set { SetValue(ref newtonFile, value); }
+        }
+
+        #endregion
+    }
+}

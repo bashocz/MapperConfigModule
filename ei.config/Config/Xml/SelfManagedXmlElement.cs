@@ -1,0 +1,95 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml;
+
+namespace EI.Config
+{
+    /// <summary>
+    /// Self managed XmlElement.
+    /// </summary>
+    public class SelfManagedXmlElement : SelfManagedXmlNode
+    {
+        #region private fields
+
+        /// <summary>
+        /// Whether to clear all elements children when saving it to XML.
+        /// </summary>
+        private bool clearAllChildren = false;
+
+        #endregion
+
+        #region constructors
+
+        /// <summary>
+        /// Creates the new instance.
+        /// </summary>
+        /// <param name="name">The name of the XML element.</param>
+        public SelfManagedXmlElement(string name) : base(name) { }
+
+        #endregion
+
+        #region public methods
+
+        public override XmlNode WriteTo(XmlNode parent)
+        {
+            XmlNode element;
+            XmlNodeList nodes = parent.SelectNodes("child::" + name);
+            if (nodes.Count == 0)
+            {
+                if (parent is XmlDocument)
+                    element = (parent as XmlDocument).CreateElement(name);
+                else
+                    element = parent.OwnerDocument.CreateElement(name);
+                parent.AppendChild(element);
+            }
+            else
+            {
+                element = nodes[0];
+
+                if (clearAllChildren)
+                {
+                    element.Attributes.RemoveAll();
+                    element.RemoveAll();
+                }
+            }
+            return element;
+        }
+
+        public override XmlNode ReadFrom(XmlNode parent)
+        {
+            XmlNode element = parent.SelectSingleNode("child::" + name);
+
+            if (element == null)
+            {
+                if (parent is XmlDocument)
+                    element = (parent as XmlDocument).CreateElement(name);
+                else
+                    element = parent.OwnerDocument.CreateElement(name);
+                parent.AppendChild(element);
+                OutOfSync = true;
+            }
+            else
+                OutOfSync = false;
+
+            return element;
+        }
+
+        #endregion
+
+        #region properties
+
+        /// <summary>
+        /// Whether to clear all elements children when saving it to XML.
+        /// Default <code>false</code>.
+        /// </summary>
+        public bool ClearAllChildren
+        {
+            get { return clearAllChildren; }
+            set { clearAllChildren = value; }
+        }
+
+        #endregion
+
+    }
+}

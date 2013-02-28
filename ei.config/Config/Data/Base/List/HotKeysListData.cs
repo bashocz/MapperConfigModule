@@ -1,0 +1,72 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace EI.Config
+{
+    public class HotKeysListData
+    {
+        #region private field
+
+        private string hotKeyName;
+        private string hotKeyVariableName;
+        private string hotKeyValue;
+
+        #endregion
+
+        #region constructor
+
+        public HotKeysListData()
+        {
+            hotKeyName = string.Empty;
+            hotKeyVariableName = string.Empty;
+            hotKeyValue = string.Empty;
+        }
+
+        public HotKeysListData(string name, string varName, string val)
+        {
+            hotKeyName = name;
+            hotKeyVariableName = varName;
+            hotKeyValue = val;
+        }
+
+        #endregion
+
+        #region public methods
+
+        public HotKeysListData Copy()
+        {
+            HotKeysListData newProperties = new HotKeysListData();
+            newProperties.HotKeyName = this.HotKeyName;
+            newProperties.HotKeyVariableName = this.HotKeyVariableName;
+            newProperties.HotKeyValue = this.HotKeyValue;
+            return newProperties;
+        }
+
+        #endregion
+
+        #region properties
+
+        public string HotKeyName
+        {
+            get { return hotKeyName; }
+            set { hotKeyName = value; }
+        }
+
+        public string HotKeyVariableName
+        {
+            get { return hotKeyVariableName; }
+            set { hotKeyVariableName = value; }
+        }
+
+
+        public string HotKeyValue
+        {
+            get { return hotKeyValue; }
+            set { hotKeyValue = value; }
+        }
+
+        #endregion
+
+    }
+}

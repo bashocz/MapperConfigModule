@@ -1,0 +1,247 @@
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Text;
+using System.Xml;
+
+namespace EI.Config
+{
+    /// <summary>
+    /// Configuration data for laserscribe automation functionality.
+    /// </summary>
+    public class LaserscribeConfigData : BaseConfigData<LaserscribeConfigData>
+    {
+        #region private fields
+
+        //******ONLY for old configuration******
+        private bool laserscribeMatchingEnabled;
+        private List<LotFilter> lotFilterList;
+        /// <summary>
+        /// List containing the masks of the laserscribe.
+        /// </summary>
+        private List<LaserscribeFormat> laserscribeFormatList;
+        //**************************************
+
+        /// <summary>
+        /// Indicate if the OCR is enabled.
+        /// </summary>
+        private bool enabled;
+        /// <summary>
+        /// A System.Boolean that indicates
+        /// whether to use laserscribe from DB if OCR is disabled.
+        /// </summary>
+        private bool usingLaserscribeFromDB;
+        /// <summary>
+        /// List containing the masks of the laserscribe.
+        /// </summary>
+        private List<MaskFormat> laserscribeMasks;
+        /// <summary>
+        /// List containing the masks of the lotId.
+        /// </summary>
+        private List<MaskFormat> lotIdMasks;
+        /// <summary>
+        /// Indicate if the read laserscribe from OCR should be verify with laserscribe in DB. 
+        /// </summary>
+        private bool checkLaserscibeWithDb;
+        /// <summary>
+        /// Indicate if the read laserscribe contains checksum.
+        /// </summary>
+        private bool checksumEnabled;
+        /// <summary>
+        /// Indicate if check lot ID from read laserscribe 
+        /// against lot ID from laserscribeCheckString.
+        /// </summary>
+        private bool checkLotId;
+        /// <summary>
+        /// Indicates if check wafer ID of wafer on chuck 
+        /// against wafer ID from read laserscribe.
+        /// </summary>
+        private bool checkWaferId;
+        /// <summary>
+        /// Indicate if check location code from read laserscribe 
+        /// against location code from laserscribeCheckString.
+        /// </summary>
+        private bool checkLocationCode;
+        /// <summary>
+        /// Indicate if check serial number from read laserscribe 
+        /// against serial number from laserscribeCheckString.
+        /// </summary>
+        private bool checkSerialNumber;
+
+        #endregion
+
+        #region constructors
+
+        public LaserscribeConfigData()
+            : base()
+        {
+            SetDefault();
+        }
+
+        #endregion
+
+        #region public methods
+
+        public override void SetDefault()
+        {
+            //******ONLY for old configuration******
+            laserscribeMatchingEnabled = false;
+            lotFilterList = new List<LotFilter>();
+            laserscribeFormatList = new List<LaserscribeFormat>();
+            //**************************************
+
+            enabled = false;
+            usingLaserscribeFromDB = false;
+            laserscribeMasks = new List<MaskFormat>();
+            lotIdMasks = new List<MaskFormat>();
+            checkLaserscibeWithDb = false;
+            checksumEnabled = false;
+            checkLotId = false;
+            checkWaferId = false;
+            checkLocationCode = false;
+            checkSerialNumber = false;
+        }
+
+        //******ONLY for old configuration******
+        public void ClearLaserscribeFormatList()
+        {
+            ClearList(laserscribeFormatList);
+        }
+
+        public void AddToLaserscribeFormatList(LaserscribeFormat laserscribeFormat)
+        {
+            AddToList(laserscribeFormatList, laserscribeFormat);
+        }
+
+        public void AddRangeToLaserscribeFormatList(List<LaserscribeFormat> laserscribeFormatRangeList)
+        {
+            AddRangeToList(laserscribeFormatList, laserscribeFormatRangeList);
+        }
+
+        public void ClearLotFilterList()
+        {
+            ClearList(lotFilterList);
+        }
+
+        public void AddToLotFilterList(LotFilter lotFilter)
+        {
+            AddToList(lotFilterList, lotFilter);
+        }
+
+        public void AddRangeToLotFilterList(List<LotFilter> lotFilterRangeList)
+        {
+            AddRangeToList(lotFilterList, lotFilterRangeList);
+        }
+        //**************************************
+
+        public void ClearLaserscribeMaskList()
+        {
+            ClearList(laserscribeMasks);
+        }
+
+        public void AddToLaserscribeMaskList(MaskFormat laserscribeMask)
+        {
+            AddToList(laserscribeMasks, laserscribeMask);
+        }
+
+        public void AddRangeToLaserscribeMaskList(List<MaskFormat> laserscribeMasksRangeList)
+        {
+            AddRangeToList(laserscribeMasks, laserscribeMasksRangeList);
+        }
+
+        public void ClearLotIdMaskList()
+        {
+            ClearList(lotIdMasks);
+        }
+
+        public void AddToLotIdMaskList(MaskFormat lotIdMask)
+        {
+            AddToList(lotIdMasks, lotIdMask);
+        }
+
+        public void AddRangeToLotIdMaskList(List<MaskFormat> lotIdMasksRangeList)
+        {
+            AddRangeToList(lotIdMasks, lotIdMasksRangeList);
+        }
+        #endregion
+
+        #region properties
+        //******ONLY for old configuration******
+        public bool LaserscribeMatchingEnabled
+        {
+            get { return laserscribeMatchingEnabled; }
+            set { SetValue(ref laserscribeMatchingEnabled, value); }
+        }
+
+        public IList<LotFilter> LotFilterList
+        {
+            get { return lotFilterList.AsReadOnly(); }
+        }
+
+        public IList<LaserscribeFormat> LaserscribeFormatList
+        {
+            get { return laserscribeFormatList.AsReadOnly(); }
+        }
+        //**************************************
+
+        public bool Enabled
+        {
+            get { return enabled; }
+            set { SetValue(ref enabled, value); }
+        }
+
+        public bool UsingLaserscribeFromDB
+        {
+            get { return usingLaserscribeFromDB; }
+            set { SetValue(ref usingLaserscribeFromDB, value); }
+        }
+
+        public IList<MaskFormat> LaserscribeMaskList
+        {
+            get { return laserscribeMasks.AsReadOnly(); }
+        }
+
+        public IList<MaskFormat> LotIdMaskList
+        {
+            get { return lotIdMasks.AsReadOnly(); }
+        }
+
+        public bool CheckLaserscibeWithDb
+        {
+            get { return checkLaserscibeWithDb; }
+            set { SetValue(ref checkLaserscibeWithDb, value); }
+        }
+
+        public bool ChecksumEnabled
+        {
+            get { return checksumEnabled; }
+            set { SetValue(ref checksumEnabled, value); }
+        }
+
+        public bool CheckLotId
+        {
+            get { return checkLotId; }
+            set { SetValue(ref checkLotId, value); }
+        }
+
+        public bool CheckWaferId
+        {
+            get { return checkWaferId; }
+            set { SetValue(ref checkWaferId, value); }
+        }
+
+        public bool CheckLocationCode
+        {
+            get { return checkLocationCode; }
+            set { SetValue(ref checkLocationCode, value); }
+        }
+
+        public bool CheckSerialNumber
+        {
+            get { return checkSerialNumber; }
+            set { SetValue(ref checkSerialNumber, value); }
+        }
+
+        #endregion
+    }
+}

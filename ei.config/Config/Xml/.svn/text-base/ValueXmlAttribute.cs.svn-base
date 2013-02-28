@@ -1,0 +1,162 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml;
+
+namespace Mapper.Common
+{
+    /// <summary>
+    /// Self managed XmlAttribute with value.
+    /// </summary>
+    public abstract class ValueXmlAttribute : SelfManagedXmlNode
+    {
+        #region private fields
+
+        /// <summary>
+        /// The value of this attribute.
+        /// </summary>
+        private object attributeValue;
+
+        /// <summary>
+        /// The default value of this attribute.
+        /// </summary>
+        private readonly object defaultValue;
+
+        #endregion
+
+        #region constructors
+
+        /// <summary>
+        /// Creates the new instance with specified name and default value.
+        /// </summary>
+        /// <param name="name">The name of this attribute.</param>
+        /// <param name="defaultValue">The default value of this attribute.</param>
+        protected ValueXmlAttribute(string name, object defaultValue)
+            : base(name)
+        {
+            this.attributeValue = defaultValue;
+            this.defaultValue = defaultValue;
+        }
+
+        #endregion
+
+        #region public methods
+
+        public override XmlNode WriteTo(XmlNode parent)
+        {
+            XmlAttribute attribute = FindAttribute(parent, name);
+            if (attribute == null)
+            {
+                attribute = parent.OwnerDocument.CreateAttribute(name);
+                parent.Attributes.Append(attribute);
+            }
+            attribute.InnerText = ValueToString(AttributeValue);
+            return attribute;
+        }
+
+        public override XmlNode ReadFrom(XmlNode parent)
+        {
+            XmlAttribute attribute = FindAttribute(parent, name);
+            if (attribute != null)
+            {
+                try
+                {
+                    AttributeValue = ParseValue(attribute.InnerText);
+                    OutOfSync = false;
+                }
+                catch (Exception)
+                {
+                    OutOfSync = true;
+                }
+            }
+            else
+            {
+                AttributeValue = defaultValue;
+                OutOfSync = true;
+            }
+            return attribute;
+        }
+
+        /// <summary>
+        /// Unsupported for attributes, throws <code>InvalidOperationException</code>.
+        /// </summary>
+        /// <param name="child">The child node.</param>
+        public override void AddChild(SelfManagedXmlNode child)
+        {
+            throw new InvalidOperationException("Can not add children to XML attributes.");
+        }
+
+        #endregion
+
+        #region protected methods
+
+        /// <summary>
+        /// Parses the attribute's value.
+        /// Can throw exceptions when can not parse the value.
+        /// </summary>
+        /// <param name="text">The text to parse.</param>
+        /// <returns>The parsed value.</returns>
+        protected abstract object ParseValue(string text);
+
+        /// <summary>
+        /// Returns the value's string representation to be used in XML.
+        /// This is the inversion method for the <code>ParseValue</code> method.
+        /// Passing the result of this method to the <code>ParseValue</code> method
+        /// should obtain back the equal object.
+        /// </summary>
+        /// <param name="value">The value to be converted to string.</param>
+        /// <returns>The string value of the given value.</returns>
+        protected virtual string ValueToString(object value)
+        {
+            if (value == null)
+                return string.Empty;
+            return value.ToString();
+        }
+
+        #endregion
+
+        #region private methods
+
+        /// <summary>
+        /// Finds if the specified parent node has attribute with the specified name.
+        /// </summary>
+        /// <param name="parent">The parent XML node.</param>
+        /// <param name="name">The attribute name to look for.</param>
+        /// <returns>Attribute if found, <code>null</code> otherwise.</returns>
+        private XmlAttribute FindAttribute(XmlNode parent, string name)
+        {
+            foreach (XmlAttribute attribute in parent.Attributes)
+            {
+                if (attribute.Name.Equals(name))
+                {
+                    return attribute;
+                }
+            }
+
+            // not found
+            return null;
+        }
+
+        #endregion
+
+        #region properties
+
+        /// <summary>
+        /// The value of this attribute.
+        /// </summary>
+        protected object AttributeValue
+        {
+            get { return this.attributeValue; }
+            set
+            {
+                if (!object.Equals(this.attributeValue, value))
+                {
+                    this.attributeValue = value;
+                    OutOfSync = true;
+                }
+            }
+        }
+
+        #endregion
+    }
+}

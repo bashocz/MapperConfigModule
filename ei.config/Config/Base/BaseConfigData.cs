@@ -1,0 +1,173 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace EI.Config
+{
+    public abstract class BaseConfigData<T> : IBaseConfigData where T : class
+    {
+        #region private fields
+
+        private bool fireEvent;
+        private bool changed;
+
+        protected List<IBaseConfigData> childList;
+
+        #endregion
+
+        #region constructors
+
+        protected BaseConfigData()
+        {
+            fireEvent = true;
+            changed = false;
+
+            childList = new List<IBaseConfigData>();
+        }
+
+        #endregion
+
+        #region event
+
+        public delegate void ConfigChangedDelegate(object sender, T configData);
+        public event ConfigChangedDelegate ConfigChanged;
+
+        #endregion
+
+        #region private methods
+
+        private void FireEvent(bool fireChangedEvent)
+        {
+            changed = false;
+            ConfigChangedDelegate configChanged = ConfigChanged;
+            if ((configChanged != null) && (fireChangedEvent))
+                configChanged(this, this as T);
+        }
+
+        protected void ClearList<U>(List<U> list) //where U : struct, class
+        {
+            if (list != null)
+            {
+                list.Clear();
+                changed = true;
+                if (fireEvent)
+                    FireEvent(true);
+            }
+        }
+
+        protected void AddToList<U>(List<U> list, U value) //where U : struct, class
+        {
+            if (list != null)
+            {
+                list.Add(value);
+                changed = true;
+                if (fireEvent)
+                    FireEvent(true);
+            }
+        }
+
+        protected void AddRangeToList<U>(List<U> list, List<U> valueList) //where U : struct, class
+        {
+            if (list != null)
+            {
+                list.AddRange(valueList);
+                changed = true;
+                if (fireEvent)
+                    FireEvent(true);
+            }
+        }
+
+        protected void ShakeList<U>(List<U> list) where U : class
+        {
+            if (list.Count > 1)
+            {
+                List<U> resultList = new List<U>();
+                Random random = new Random();
+
+                while (list.Count > 0)
+                {
+                    int idx = random.Next(list.Count);
+                    U item = list[idx];
+                    list.RemoveAt(idx);
+                    resultList.Add(item);
+                }
+
+                list.AddRange(resultList);
+            }
+        }
+
+        protected void SetValue<U>(ref U field, U value) where U : IComparable<U>
+        {
+            if ((field == null) || (field.CompareTo(value) != 0))
+            {
+                field = value;
+                changed = true;
+                if (fireEvent)
+                    FireEvent(true);
+            }
+        }
+
+        protected void SetEnumValue<U>(ref U field, U value) where U : struct, IConvertible
+        {
+            if (!typeof(U).IsEnum)
+                throw new ArgumentException("BaseConfigData.SetEnumValue: U must be an enumerated type.");
+            if (!field.Equals(value))
+            {
+                field = value;
+                changed = true;
+                if (fireEvent)
+                    FireEvent(true);
+            }
+        }
+
+        #endregion
+
+        #region public methods
+
+        public void BeginUpdate()
+        {
+            fireEvent = false;
+            for (int idx = 0; idx < childList.Count; idx++)
+                childList[idx].BeginUpdate();
+        }
+
+        public void DiscardUpdate()
+        {
+            changed = false;
+            for (int idx = 0; idx < childList.Count; idx++)
+                childList[idx].DiscardUpdate();
+        }
+
+        public void EndUpdate(bool fireChangedEvent)
+        {
+            for (int idx = 0; idx < childList.Count; idx++)
+                childList[idx].EndUpdate(fireChangedEvent);
+            if (changed) 
+                FireEvent(fireChangedEvent);
+            fireEvent = true;
+        }
+
+        public abstract void SetDefault();
+
+        public virtual void CheckSetting(ConfigData configData) { }
+
+        //public abstract List<string> ToLog(string prefix);
+
+        #endregion
+
+        #region public properties
+
+        public bool IsChanged
+        {
+            get
+            {
+                bool isChanged = changed;
+                for (int idx = 0; idx < childList.Count; idx++)
+                    isChanged |= childList[idx].IsChanged;
+                return isChanged;
+            }
+        }
+
+        #endregion
+    }
+}

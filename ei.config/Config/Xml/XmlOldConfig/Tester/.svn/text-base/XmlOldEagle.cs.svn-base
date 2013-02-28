@@ -1,0 +1,126 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Mapper.Common
+{
+    internal class XmlOldEagle : XmlOldBase
+    {
+        #region private fields
+
+        private SelfManagedXmlElement testerElement;
+        private SelfManagedXmlElement testersElement;
+        private SelfManagedXmlElement eagleElement;
+
+        private EnumXmlElement<EagleCommunicationType> communicationTypeElement;
+        private EnumXmlElement<EagleCommandSet> commandSetElement;
+        private StringXmlElement proberIdElement;
+        private XmlOldSerial serialElement;
+        private XmlOldGpib gpibElement;
+        private XmlOldTcpIp tcpIpElement;
+
+        private BooleanXmlElement newtonEnableElement;
+        private XmlOldSerial newtonSerialElement;
+        private StringXmlElement newtonFileElement;
+
+        #endregion
+
+        #region constructors
+
+        public XmlOldEagle()
+        {
+            testerElement = new SelfManagedXmlElement("Tester");
+            rootElement.AddChild(testerElement);
+
+            testersElement = new SelfManagedXmlElement("Testers");
+            testerElement.AddChild(testersElement);
+
+            eagleElement = new SelfManagedXmlElement("Eagle");
+            testersElement.AddChild(eagleElement);
+
+            communicationTypeElement = new EnumXmlElement<EagleCommunicationType>("CommunicationType", EagleCommunicationType.Serial);
+            eagleElement.AddChild(communicationTypeElement);
+
+            commandSetElement = new EnumXmlElement<EagleCommandSet>("CommandSet", EagleCommandSet.ElectroglasEnhancedMode);
+            eagleElement.AddChild(commandSetElement);
+
+            proberIdElement = new StringXmlElement("ProberId", "2001X.EC.249799-121");
+            eagleElement.AddChild(proberIdElement);
+
+            serialElement = new XmlOldSerial();
+            eagleElement.AddChild(serialElement.XmlNode);
+
+            gpibElement = new XmlOldGpib();
+            eagleElement.AddChild(gpibElement.XmlNode);
+
+            tcpIpElement = new XmlOldTcpIp();
+            eagleElement.AddChild(tcpIpElement.XmlNode);
+
+            SelfManagedXmlElement newtonElement = new SelfManagedXmlElement("Newton");
+            eagleElement.AddChild(newtonElement);
+
+            newtonEnableElement = new BooleanXmlElement("EnableNewton", false);
+            newtonElement.AddChild(newtonEnableElement);
+
+            newtonSerialElement = new XmlOldSerial();
+            newtonElement.AddChild(newtonSerialElement.XmlNode);
+
+            newtonFileElement = new StringXmlElement("NewtonFile", "");
+            newtonElement.AddChild(newtonFileElement);
+        }
+
+        #endregion
+
+        #region public properties
+
+        public EagleCommunicationType CommunicationType
+        {
+            get { return communicationTypeElement.Value; }
+            set { communicationTypeElement.Value = value; }
+        }
+
+        public EagleCommandSet CommandSet
+        {
+            get { return commandSetElement.Value; }
+            set { commandSetElement.Value = value; }
+        }
+
+        public string ProberId
+        {
+            get { return proberIdElement.Value; }
+            set { proberIdElement.Value = value; }
+        }
+
+        public XmlOldSerial Serial
+        {
+            get { return serialElement; }
+        }
+
+        public XmlOldGpib Gpib
+        {
+            get { return gpibElement; }
+        }
+
+        public XmlOldTcpIp TcpIp
+        {
+            get { return tcpIpElement; }
+        }
+
+        public bool NewtonEnabled
+        {
+            get { return newtonEnableElement.Value; }
+            set { newtonEnableElement.Value = value; }
+        }
+        public XmlOldSerial NewtonSerial
+        {
+            get { return newtonSerialElement; }
+        }
+        public string NewtonCacheFileName
+        {
+            get { return newtonFileElement.Value; }
+            set { newtonFileElement.Value = value; }
+        }
+
+        #endregion
+    }
+}

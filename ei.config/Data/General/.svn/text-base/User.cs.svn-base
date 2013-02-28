@@ -1,0 +1,82 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Mapper.Common
+{
+    /// <summary>
+    /// Static class represents the user using the program.
+    /// </summary>
+    public class User
+    {
+        #region private fields
+
+        /// <summary>
+        /// A System.String that specifies
+        /// the user identification string.
+        /// </summary>
+        private string userId;
+
+        /// <summary>
+        /// A System.String that specifies
+        /// the user name.
+        /// </summary>
+        private string userName;
+
+        /// <summary>
+        /// A System.String that specifies
+        /// the user privileges.
+        /// </summary>
+        private UserPrivileges privileges;
+
+        #endregion
+
+        #region constructors
+
+        /// <summary>
+        /// Creates object of UserPrivileges.
+        /// </summary>
+        public User(string userId, string userName)
+            : this(userId, userName, true, "") { }
+
+        /// <summary>
+        /// Creates object of UserPrivileges.
+        /// </summary>
+        public User(string userId, string userName, bool enablePrivileges, string privileges)
+        {
+            this.userId = userId;
+            this.userName = userName;
+            this.privileges = new UserPrivileges(enablePrivileges, privileges);
+        }
+
+        #endregion
+
+        #region properties
+
+        /// <summary>
+        /// Gets the user identification string.
+        /// </summary>
+        public string UserId
+        {
+            get { return userId; }
+        }
+
+        /// <summary>
+        /// Gets the user name.
+        /// </summary>
+        public string UserName
+        {
+            get { return userName; }
+        }
+
+        /// <summary>
+        /// Gets the user privileges.
+        /// </summary>
+        public UserPrivileges Privileges
+        {
+            get { return privileges; }
+        }
+
+        #endregion
+    }
+}

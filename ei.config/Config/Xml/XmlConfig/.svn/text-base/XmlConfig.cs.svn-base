@@ -1,0 +1,111 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml;
+
+namespace Mapper.Common
+{
+    internal class XmlConfig : XmlBase
+    {
+        #region private fields
+
+        private StringXmlElement mapperIdElement;
+        private StringXmlElement proberIdElement;
+        private StringXmlElement testerIdElement;
+
+        private BooleanXmlElement newConfigEnabledElement;
+        private BooleanXmlElement wsConfigEnabledElement;
+
+        private IntegerXmlElement wsTimeoutSecondsElement;
+        private StringListXmlElement wsAddressListElement;
+        private IntegerXmlElement wsOnlineCheckTimeoutSecondsElement;
+
+        
+        #endregion
+
+        #region constructors
+
+        public XmlConfig()
+            : base("localSetting")
+        {
+            mapperIdElement = new StringXmlElement("MapperId", string.Empty);
+            rootElement.AddChild(mapperIdElement);
+
+            proberIdElement = new StringXmlElement("ProberId", string.Empty);
+            rootElement.AddChild(proberIdElement);
+
+            testerIdElement = new StringXmlElement("TesterId", string.Empty);
+            rootElement.AddChild(testerIdElement);
+
+            newConfigEnabledElement = new BooleanXmlElement("NewConfigEnabled", false);
+            rootElement.AddChild(newConfigEnabledElement);
+
+            wsConfigEnabledElement = new BooleanXmlElement("WsConfigEnabled", false);
+            rootElement.AddChild(wsConfigEnabledElement);
+
+            wsTimeoutSecondsElement = new IntegerXmlElement("WsTimeoutSeconds", 60);
+            wsTimeoutSecondsElement.KeepSync = false;
+            rootElement.AddChild(wsTimeoutSecondsElement);
+
+            wsAddressListElement = new StringListXmlElement("WsAddressList");
+            rootElement.AddChild(wsAddressListElement);
+
+            wsOnlineCheckTimeoutSecondsElement = new IntegerXmlElement("WsOnlineCheckTimeoutSeconds", 3);
+            wsOnlineCheckTimeoutSecondsElement.KeepSync = false;
+            rootElement.AddChild(wsOnlineCheckTimeoutSecondsElement);
+        }
+
+        #endregion
+
+        #region public properties
+
+        public string MapperId
+        {
+            get { return mapperIdElement.Value; }
+            set { mapperIdElement.Value = value; }
+        }
+
+        public string ProberId
+        {
+            get { return proberIdElement.Value; }
+            set { proberIdElement.Value = value; }
+        }
+
+        public string TesterId
+        {
+            get { return testerIdElement.Value; }
+            set { testerIdElement.Value = value; }
+        }
+
+        public bool NewConfigEnabled
+        {
+            get { return newConfigEnabledElement.Value; }
+            set { newConfigEnabledElement.Value = value; }
+        }
+
+        public bool WsConfigEnabled
+        {
+            get { return wsConfigEnabledElement.Value; }
+            set { wsConfigEnabledElement.Value = value; }
+        }
+
+        public int WsTimeoutSeconds
+        {
+            get { return wsTimeoutSecondsElement.Value; }
+            set { wsTimeoutSecondsElement.Value = value; }
+        }
+
+        public List<string> WsAddressList
+        {
+            get { return wsAddressListElement.Values; }
+            set { wsAddressListElement.Values = value; }
+        }
+        public int WsOnlineCheckTimeoutSeconds
+        {
+            get { return wsOnlineCheckTimeoutSecondsElement.Value; }
+            set { wsOnlineCheckTimeoutSecondsElement.Value = value; }
+        }
+
+        #endregion
+    }
+}

@@ -1,0 +1,154 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.IO;
+using System.Xml;
+using System.Drawing;
+using System.Globalization;
+
+namespace Mapper.Common
+{
+    internal class BaseXmlBinder
+    {
+        #region private methods
+
+        private bool GetValue(XmlDocument xmlDoc, string elementName, out string value)
+        {
+            value = string.Empty;
+
+            XmlNodeList xmlNodeList = xmlDoc.GetElementsByTagName(elementName);
+            if (xmlNodeList.Count == 1)
+            {
+                XmlElement xmlElement = xmlNodeList[0] as XmlElement;
+                if (xmlElement != null)
+                {
+                    value = xmlElement.InnerText;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        #endregion
+
+        #region protected methods
+
+        protected string GetString(XmlDocument xmlDoc, string elementName, string defValue)
+        {
+            string value = defValue;
+            try
+            {
+                string valueStr;
+                if (GetValue(xmlDoc, elementName, out valueStr))
+                    value = valueStr;
+            }
+            catch (Exception ex)
+            {
+                LogIt.Error("Exception in ConfigXmlBinder.GetString(elementName = '" + elementName + "')", ex);
+            }
+            return value;
+        }
+
+        protected bool GetBool(XmlDocument xmlDoc, string elementName, bool defValue)
+        {
+            bool value = defValue;
+            try
+            {
+                string valueStr;
+                if (GetValue(xmlDoc, elementName, out valueStr))
+                    value = Convert.ToBoolean(valueStr);
+            }
+            catch (Exception ex)
+            {
+                LogIt.Error("Exception in ConfigXmlBinder.GetBool(elementName = '" + elementName + "')", ex);
+            }
+            return value;
+        }
+
+        protected int GetInt(XmlDocument xmlDoc, string elementName, int defValue)
+        {
+            int value = defValue;
+            try
+            {
+                string valueStr;
+                if (GetValue(xmlDoc, elementName, out valueStr))
+                    value = Convert.ToInt32(valueStr);
+            }
+            catch (Exception ex)
+            {
+                LogIt.Error("Exception in ConfigXmlBinder.GetInt(elementName = '" + elementName + "')", ex);
+            }
+            return value;
+        }
+
+        protected long GetLong(XmlDocument xmlDoc, string elementName, long defValue)
+        {
+            long value = defValue;
+            try
+            {
+                string valueStr;
+                if (GetValue(xmlDoc, elementName, out valueStr))
+                    value = Convert.ToInt64(valueStr);
+            }
+            catch (Exception ex)
+            {
+                LogIt.Error("Exception in ConfigXmlBinder.GetLong(elementName = '" + elementName + "')", ex);
+            }
+            return value;
+        }
+
+        protected float GetFloat(XmlDocument xmlDoc, string elementName, float defValue)
+        {
+            float value = defValue;
+            try
+            {
+                string valueStr;
+                if (GetValue(xmlDoc, elementName, out valueStr))
+                    value = Convert.ToSingle(valueStr, CultureInfo.InvariantCulture);
+            }
+            catch (Exception ex)
+            {
+                LogIt.Error("Exception in ConfigXmlBinder.GetSingle(elementName = '" + elementName + "')", ex);
+            }
+            return value;
+        }
+
+        protected double GetDouble(XmlDocument xmlDoc, string elementName, double defValue)
+        {
+            double value = defValue;
+            try
+            {
+                string valueStr;
+                if (GetValue(xmlDoc, elementName, out valueStr))
+                    value = Convert.ToDouble(valueStr, CultureInfo.InvariantCulture);
+            }
+            catch (Exception ex)
+            {
+                LogIt.Error("Exception in ConfigXmlBinder.GetDouble(elementName = '" + elementName + "')", ex);
+            }
+            return value;
+        }
+
+        protected U GetEnum<U>(XmlDocument xmlDoc, string elementName, U defValue) where U : struct, IConvertible
+        {
+            U value = defValue;
+            try
+            {
+                if (!typeof(U).IsEnum)
+                    throw new ArgumentException("ConfigXmlBinder.GetEnum: U must be an enumerated type.");
+
+                string valueStr;
+                if (GetValue(xmlDoc, elementName, out valueStr))
+                    value = (U)Enum.Parse(typeof(U), valueStr, true);
+            }
+            catch (Exception ex)
+            {
+                LogIt.Error("Exception in ConfigXmlBinder.GetEnum(elementName = '" + elementName + "')", ex);
+            }
+            return value;
+        }
+
+        #endregion
+    }
+}

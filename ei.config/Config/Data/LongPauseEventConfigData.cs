@@ -1,0 +1,148 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace EI.Config
+{
+    public class LongPauseEventConfigData : BaseConfigData<LongPauseEventConfigData>
+    {
+
+        #region private field
+
+        private LongPauseEventListData mapperStartEvent;
+        private LongPauseEventListData mapperStopEvent;
+        private LongPauseEventListData checkinStartedEvent;
+        private LongPauseEventListData firstWaferStartsLoadingEvent;
+        private LongPauseEventListData waferUnloadedEvent;
+        private LongPauseEventListData lotFinishedEvent;
+
+        private List<LongPauseEventListData> longPauseEventPropertyList;
+
+        #endregion
+
+        #region constructor
+
+        public LongPauseEventConfigData()
+            : base()
+        {
+            SetDefault();
+        }
+
+        #endregion
+
+        #region public methods
+
+        public override void SetDefault()
+        {
+            longPauseEventPropertyList = new List<LongPauseEventListData>();
+
+            mapperStartEvent = new LongPauseEventListData("Mapper starts event", false, -1);
+            longPauseEventPropertyList.Add(mapperStartEvent);
+            mapperStopEvent = new LongPauseEventListData("Mapper stop event", false, -1);
+            longPauseEventPropertyList.Add(mapperStopEvent);
+            checkinStartedEvent = new LongPauseEventListData("Checkin starts event", false, -1);
+            longPauseEventPropertyList.Add(checkinStartedEvent);
+            firstWaferStartsLoadingEvent = new LongPauseEventListData("First wafer starts loading event", false, -1);
+            longPauseEventPropertyList.Add(firstWaferStartsLoadingEvent);
+            waferUnloadedEvent = new LongPauseEventListData("Wafer finish unloading event", false, -1);
+            longPauseEventPropertyList.Add(waferUnloadedEvent);
+            lotFinishedEvent = new LongPauseEventListData("Lot finished event", false, -1);
+            longPauseEventPropertyList.Add(lotFinishedEvent);
+
+        }
+
+        public void UpdateLongPauseEventList(List<LongPauseEventListData> longPauseEventPropertyRangeList)
+        {
+            for (int newIdx = 0; newIdx < longPauseEventPropertyRangeList.Count; newIdx++)
+            {
+                string newName = longPauseEventPropertyRangeList[newIdx].Name;
+                for (int idx = 0; idx < longPauseEventPropertyList.Count; idx++)
+                {
+                    string name = longPauseEventPropertyList[idx].Name;
+                    if (string.Compare(newName, name) == 0)
+                    {
+                        if ((string.Compare(longPauseEventPropertyRangeList[newIdx].Name, longPauseEventPropertyList[idx].Name, true) != 0) ||
+                            (longPauseEventPropertyRangeList[newIdx].Enabled != longPauseEventPropertyList[idx].Enabled) ||
+                            (longPauseEventPropertyRangeList[newIdx].ReasonCode != longPauseEventPropertyList[idx].ReasonCode))
+                        {
+                            longPauseEventPropertyList[idx].Name = longPauseEventPropertyRangeList[newIdx].Name;
+                            longPauseEventPropertyList[idx].Enabled = longPauseEventPropertyRangeList[newIdx].Enabled;
+                            longPauseEventPropertyList[idx].ReasonCode = longPauseEventPropertyRangeList[newIdx].ReasonCode;
+                        }
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        #region properties
+
+        public int MapperStartEventReason
+        {
+            get { return mapperStartEvent.ReasonCode; }
+        }
+
+        public int MapperStopEventReason
+        {
+            get { return mapperStopEvent.ReasonCode; }
+        }
+
+        public int CheckinStartedEventReason
+        {
+            get { return checkinStartedEvent.ReasonCode; }
+        }
+
+        public int FirstWaferStartsLoadingEventReason
+        {
+            get { return firstWaferStartsLoadingEvent.ReasonCode; }
+        }
+
+        public int WaferUnloadedEventReason
+        {
+            get { return waferUnloadedEvent.ReasonCode; }
+        }
+
+        public int LotFinishedEventReason
+        {
+            get { return lotFinishedEvent.ReasonCode; }
+        }
+
+        public bool MapperStartEventEnabled
+        {
+            get { return mapperStartEvent.Enabled; }
+        }
+
+        public bool MapperStopEventEnabled
+        {
+            get { return mapperStopEvent.Enabled; }
+        }
+
+        public bool CheckinStartedEventEnabled
+        {
+            get { return checkinStartedEvent.Enabled; }
+        }
+
+        public bool FirstWaferStartsLoadingEventEnabled
+        {
+            get { return firstWaferStartsLoadingEvent.Enabled; }
+        }
+
+        public bool WaferUnloadedEventEnabled
+        {
+            get { return waferUnloadedEvent.Enabled; }
+        }
+
+        public bool LotFinishedEventEnabled
+        {
+            get { return lotFinishedEvent.Enabled; }
+        }
+
+        public IList<LongPauseEventListData> LongPauseEventPropertyList
+        {
+            get { return longPauseEventPropertyList.AsReadOnly(); }
+        }
+
+        #endregion
+    }
+}

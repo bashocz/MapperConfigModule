@@ -1,0 +1,285 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml;
+
+namespace EI.Config
+{
+    public class VirtualProberConfigData : BaseConfigData<VirtualProberConfigData>
+    {
+        #region private fields
+
+        private int connectDelay;
+        private int disconnectDelay;
+        private int initDelay;
+        private int writeSettingDelay;
+        private int readSettingDelay;
+        private int writeAlignmentDelay;
+        private int readAlignmentDelay;
+        private int startLotDelay;
+        private int endLotDelay;
+        private int loadWaferDelay;
+        private int unloadWaferDelay;
+        private int startWaferDelay;
+        private int endWaferDelay;
+        private int getWaferIdDelay;
+        private int profileWaferDelay;
+        private int alignWaferDelay;
+        private int moveToDelay;
+        private int inkDieDelay;
+        private int contactDelay;
+        private int uncontactDelay;
+        private int recontactDelay;
+        private int testCompleteDelay;
+        private int pauseDelay;
+        private int continueDelay;
+        private int abortDelay;
+        private int showMessageDelay;
+        private int clearMessageDelay;
+        private int buzzerOnDelay;
+        private int buzzerOffDelay;
+        private int forwardCommandDelay;
+        private int getInformationDelay;
+
+        #endregion
+
+        #region constructors
+
+        public VirtualProberConfigData()
+            : base()
+        {
+            SetDefault();
+        }
+
+        #endregion
+
+        #region public methods
+
+        public override void SetDefault()
+        {
+            connectDelay = 0;
+            disconnectDelay = 0;
+            initDelay = 1000;
+            writeSettingDelay = 0;
+            readSettingDelay = 0;
+            writeAlignmentDelay = 0;
+            readAlignmentDelay = 0;
+            startLotDelay = 2000;
+            endLotDelay = 0;
+            loadWaferDelay = 1000;
+            unloadWaferDelay = 1000;
+            startWaferDelay = 0;
+            endWaferDelay = 0;
+            getWaferIdDelay = 0;
+            alignWaferDelay = 0;
+            profileWaferDelay = 0;
+            moveToDelay = 0;
+            inkDieDelay = 10;
+            contactDelay = 0;
+            uncontactDelay = 0;
+            recontactDelay = 0;
+            testCompleteDelay = 0;
+            pauseDelay = 0;
+            continueDelay = 0;
+            abortDelay = 0;
+            showMessageDelay = 10;
+            clearMessageDelay = 10;
+            buzzerOnDelay = 5;
+            buzzerOffDelay = 50;
+            forwardCommandDelay = 0;
+            getInformationDelay = 0;
+        }
+
+        #endregion
+
+        #region properties
+
+        public int ConnectDelay
+        {
+            get { return connectDelay; }
+            set { SetValue(ref connectDelay, value); }
+        }
+
+        public int DisconnectDelay
+        {
+            get { return disconnectDelay; }
+            set { SetValue(ref disconnectDelay, value); }
+        }
+
+        public int InitDelay
+        {
+            get { return initDelay; }
+            set { SetValue(ref initDelay, value); }
+        }
+
+        public int WriteSettingDelay
+        {
+            get { return writeSettingDelay; }
+            set { SetValue(ref writeSettingDelay, value); }
+        }
+
+        public int ReadSettingDelay
+        {
+            get { return readSettingDelay; }
+            set { SetValue(ref readSettingDelay, value); }
+        }
+
+        public int WriteAlignmentDelay
+        {
+            get { return writeAlignmentDelay; }
+            set { SetValue(ref writeAlignmentDelay, value); }
+        }
+
+        public int ReadAlignmentDelay
+        {
+            get { return readAlignmentDelay; }
+            set { SetValue(ref readAlignmentDelay, value); }
+        }
+
+        public int StartLotDelay
+        {
+            get { return startLotDelay; }
+            set { SetValue(ref startLotDelay, value); }
+        }
+
+        public int EndLotDelay
+        {
+            get { return endLotDelay; }
+            set { SetValue(ref endLotDelay, value); }
+        }
+
+        public int LoadWaferDelay
+        {
+            get { return loadWaferDelay; }
+            set { SetValue(ref loadWaferDelay, value); }
+        }
+
+        public int UnloadWaferDelay
+        {
+            get { return unloadWaferDelay; }
+            set { SetValue(ref unloadWaferDelay, value); }
+        }
+
+        public int StartWaferDelay
+        {
+            get { return startWaferDelay; }
+            set { SetValue(ref startWaferDelay, value); }
+        }
+
+        public int EndWaferDelay
+        {
+            get { return endWaferDelay; }
+            set { SetValue(ref endWaferDelay, value); }
+        }
+
+        public int GetWaferIdDelay
+        {
+            get { return getWaferIdDelay; }
+            set { SetValue(ref getWaferIdDelay, value); }
+        }
+
+        public int AlignWaferDelay
+        {
+            get { return alignWaferDelay; }
+            set { SetValue(ref alignWaferDelay, value); }
+        }
+
+        public int ProfileWaferDelay
+        {
+            get { return profileWaferDelay; }
+            set { SetValue(ref profileWaferDelay, value); }
+        }
+
+        public int MoveToDelay
+        {
+            get { return moveToDelay; }
+            set { SetValue(ref moveToDelay, value); }
+        }
+
+        public int InkDieDelay
+        {
+            get { return inkDieDelay; }
+            set { SetValue(ref inkDieDelay, value); }
+        }
+
+        public int ContactDelay
+        {
+            get { return contactDelay; }
+            set { SetValue(ref contactDelay, value); }
+        }
+
+        public int UncontactDelay
+        {
+            get { return uncontactDelay; }
+            set { SetValue(ref uncontactDelay, value); }
+        }
+
+        public int RecontactDelay
+        {
+            get { return recontactDelay; }
+            set { SetValue(ref recontactDelay, value); }
+        }
+
+        public int TestCompleteDelay
+        {
+            get { return testCompleteDelay; }
+            set { SetValue(ref testCompleteDelay, value); }
+        }
+
+        public int PauseDelay
+        {
+            get { return pauseDelay; }
+            set { SetValue(ref pauseDelay, value); }
+        }
+
+        public int ContinueDelay
+        {
+            get { return continueDelay; }
+            set { SetValue(ref continueDelay, value); }
+        }
+
+        public int AbortDelay
+        {
+            get { return abortDelay; }
+            set { SetValue(ref abortDelay, value); }
+        }
+
+        public int ShowMessageDelay
+        {
+            get { return showMessageDelay; }
+            set { SetValue(ref showMessageDelay, value); }
+        }
+
+        public int ClearMessageDelay
+        {
+            get { return clearMessageDelay; }
+            set { SetValue(ref clearMessageDelay, value); }
+        }
+
+        public int BuzzerOnDelay
+        {
+            get { return buzzerOnDelay; }
+            set { SetValue(ref buzzerOnDelay, value); }
+        }
+
+        public int BuzzerOffDelay
+        {
+            get { return buzzerOffDelay; }
+            set { SetValue(ref buzzerOffDelay, value); }
+        }
+
+        public int ForwardCommandDelay
+        {
+            get { return forwardCommandDelay; }
+            set { SetValue(ref forwardCommandDelay, value); }
+        }
+
+        public int GetInformationDelay
+        {
+            get { return getInformationDelay; }
+            set { SetValue(ref getInformationDelay, value); }
+        }
+
+        #endregion
+    }
+}

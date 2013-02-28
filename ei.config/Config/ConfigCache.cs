@@ -1,0 +1,200 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml;
+using System.IO;
+
+namespace EI.Config
+{
+    public class ConfigCache
+    {
+        #region private fields
+
+        private readonly string mapperConfigFile = "mapper_config.xml";
+        private readonly string lotConfigFile = "device_config_{0}.xml";
+
+        private readonly string lotConfigDir;
+
+        private readonly ConfigData configData;
+
+        private readonly List<string> lotConfigList;
+
+        private bool wsConfigEnabled;
+        private string cacheDir;
+
+        #endregion
+
+        #region constructors
+
+        public ConfigCache(ConfigData configData)
+        {
+            this.configData = configData;
+            this.configData.Config.ConfigChanged += new BaseConfigData<ConfigConfigData>.ConfigChangedDelegate(ConfigChanged);
+            this.configData.Dir.ConfigChanged += new BaseConfigData<DirConfigData>.ConfigChangedDelegate(DirChanged);
+
+            lotConfigDir = Path.Combine(configData.Dir.CacheDir, "LotCfgs");
+            lotConfigList = new List<string>();
+            FillLotConfigList();
+        }
+
+        ~ConfigCache()
+        {
+            this.configData.Config.ConfigChanged -= new BaseConfigData<ConfigConfigData>.ConfigChangedDelegate(ConfigChanged);
+            this.configData.Dir.ConfigChanged -= new BaseConfigData<DirConfigData>.ConfigChangedDelegate(DirChanged);
+        }
+
+        #endregion
+
+        #region events
+
+        private void ConfigChanged(object sender, ConfigConfigData config)
+        {
+            if (configData.Config.NewConfigEnabled != wsConfigEnabled)
+            {
+                wsConfigEnabled = configData.Config.NewConfigEnabled;
+                FillLotConfigList();
+            }
+        }
+
+        private void DirChanged(object sender, DirConfigData config)
+        {
+            if (string.Compare(configData.Dir.CacheDir, cacheDir) != 0)
+            {
+                cacheDir = configData.Dir.CacheDir;
+                FillLotConfigList();
+            }
+        }
+
+        #endregion
+
+        #region private methods
+
+        private void FillLotConfigList()
+        {
+            lotConfigList.Clear();
+
+            if (configData.Config.NewConfigEnabled)
+            {
+                try
+                {
+                    if (Directory.Exists(lotConfigDir))
+                    {
+                        string[] fileList = Directory.GetFiles(lotConfigDir);
+                        foreach (string file in fileList)
+                        {
+                            // remove path + file extension and "device_config_" from the file name
+                            lotConfigList.Add(Path.GetFileNameWithoutExtension(file).Substring(14));
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogIt.Error("ConfigCache.FillLotConfigList() exception:", ex);
+                }
+            }
+
+            lotConfigList.Sort();
+        }
+
+        private string GetMapperConfigCacheFile()
+        {
+            return Path.Combine(configData.Dir.CacheDir, mapperConfigFile);
+        }
+
+        private string GetLotConfigCacheFile(string deviceId)
+        {
+            return Path.Combine(lotConfigDir, string.Format(lotConfigFile, deviceId));
+        }
+
+        private string GetDeviceId(XmlDocument doc)
+        {
+            XmlNodeList xmlNodeList = doc.GetElementsByTagName("LotInfoDeviceId");
+            if (xmlNodeList.Count == 1)
+                return (xmlNodeList[0] as XmlElement).InnerText;
+            return null;
+        }
+
+        private void RemoveItemsFromLotConfig(XmlDocument doc)
+        {
+            // remove lot ID item
+            XmlElement xmlElement = null;
+            XmlNodeList xmlNodeList = doc.GetElementsByTagName("LotInfoLotId");
+            if (xmlNodeList.Count == 1)
+                xmlElement = xmlNodeList[0] as XmlElement;
+            if (xmlElement != null)
+                doc.RemoveChild(xmlElement);
+
+            // remove wafer info list
+            xmlElement = null;
+            xmlNodeList = doc.GetElementsByTagName("LotInfoWaferList");
+            if (xmlNodeList.Count == 1)
+                xmlElement = xmlNodeList[0] as XmlElement;
+            if (xmlElement != null)
+                doc.RemoveChild(xmlElement);
+
+            // remove allowed action list
+            xmlElement = null;
+            xmlNodeList = doc.GetElementsByTagName("LotInfoAllowedActionsList");
+            if (xmlNodeList.Count == 1)
+                xmlElement = xmlNodeList[0] as XmlElement;
+            if (xmlElement != null)
+                doc.RemoveChild(xmlElement);
+        }
+
+        #endregion
+
+        #region public methods
+
+        public void StoreMapperConfig(XmlDocument doc)
+        {
+            if (configData.Config.NewConfigEnabled)
+                doc.Save(GetMapperConfigCacheFile());
+        }
+
+        public XmlDocument RestoreMapperConfig()
+        {
+            if ((configData.Config.NewConfigEnabled) && (File.Exists(GetMapperConfigCacheFile())))
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(GetMapperConfigCacheFile());
+                return doc;
+            }
+            return null;
+        }
+
+        public void StoreLotConfig(XmlDocument doc)
+        {
+            if (configData.Config.NewConfigEnabled)
+            {
+                string deviceId = GetDeviceId(doc);
+                RemoveItemsFromLotConfig(doc);
+                doc.Save(GetLotConfigCacheFile(deviceId));
+
+                if (!lotConfigList.Contains(deviceId))
+                {
+                    lotConfigList.Add(deviceId);
+                    lotConfigList.Sort();
+                }
+            }
+        }
+
+        public XmlDocument RestoreLotConfig(string deviceId)
+        {
+            string cacheFile = GetLotConfigCacheFile(deviceId);
+            if ((configData.Config.NewConfigEnabled) && (File.Exists(cacheFile)))
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(cacheFile);
+                return doc;
+            }
+            return null;
+        }
+
+        public IList<string> GetLotConfigList()
+        {
+            return lotConfigList.AsReadOnly();
+        }
+
+        #endregion
+    }
+}

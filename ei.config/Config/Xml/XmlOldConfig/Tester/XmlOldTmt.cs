@@ -1,0 +1,78 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace EI.Config
+{
+    internal class XmlOldTmt : XmlOldBase
+    {
+        #region private fields
+
+        private SelfManagedXmlElement testerElement;
+        private SelfManagedXmlElement testersElement;
+        private SelfManagedXmlElement tmtElement;
+
+        private EnumXmlElement<TmtCommunicationType> communicationTypeElement;
+        private EnumXmlElement<TmtCommandSet> commandSetElement;
+        private XmlOldTcpIp tcpIpElement;
+        private XmlOldSerial serialElement;
+
+        #endregion
+
+        #region constructors
+
+        public XmlOldTmt()
+        {
+            testerElement = new SelfManagedXmlElement("Tester");
+            rootElement.AddChild(testerElement);
+
+            testersElement = new SelfManagedXmlElement("Testers");
+            testerElement.AddChild(testersElement);
+
+            tmtElement = new SelfManagedXmlElement("TMT");
+            tmtElement.ClearAllChildren = true;
+            testersElement.AddChild(tmtElement);
+
+            commandSetElement = new EnumXmlElement<TmtCommandSet>("CommandSet", TmtCommandSet.ETI);
+            tmtElement.AddChild(commandSetElement);
+
+            communicationTypeElement = new EnumXmlElement<TmtCommunicationType>("CommunicationType", TmtCommunicationType.TCPIP);
+            tmtElement.AddChild(communicationTypeElement);
+
+            tcpIpElement = new XmlOldTcpIp();
+            tmtElement.AddChild(tcpIpElement.XmlNode);
+
+            serialElement = new XmlOldSerial();
+            tmtElement.AddChild(serialElement.XmlNode);
+
+        }
+
+        #endregion
+
+        #region public properties
+
+        public XmlOldTcpIp TcpIp
+        {
+            get { return tcpIpElement; }
+           // set { tcpIpElement=value; }
+        }
+        public XmlOldSerial Serial
+        {
+            get { return serialElement; }
+           // set { serialElement=value; }
+        }
+        public TmtCommunicationType CommunicationType
+        {
+            get { return communicationTypeElement.Value; }
+            set { communicationTypeElement.Value = value; }
+        }
+
+        public TmtCommandSet CommandSet
+        {
+            get { return commandSetElement.Value; }
+            set { commandSetElement.Value = value; }
+        }
+
+        #endregion
+    }
+}

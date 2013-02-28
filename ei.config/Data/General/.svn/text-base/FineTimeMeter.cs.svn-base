@@ -1,0 +1,51 @@
+using System;
+using System.Diagnostics;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading;
+
+namespace Mapper.Common
+{
+    /// <summary>
+    /// Class represents the time meter.
+    /// </summary>
+    public class FineTimeMeter
+    {
+        #region private fields
+
+        private long startCounter;
+
+        private long endCounter;
+
+        #endregion
+
+        #region constructors
+
+        public FineTimeMeter()
+        {
+            Start();
+        }
+
+        #endregion
+
+        #region public methods
+
+        public void Start()
+        {
+            startCounter = Stopwatch.GetTimestamp();
+        }
+
+        public TimeSpan GetTimeSpan()
+        {
+            return new TimeSpan((long)Math.Round(GetTimeInMilliseconds() * 1e4));
+        }
+
+        public double GetTimeInMilliseconds()
+        {
+            endCounter = Stopwatch.GetTimestamp();
+            return 1000 * (double)(endCounter - startCounter) / (double)Stopwatch.Frequency;
+        }
+
+        #endregion
+    }
+}

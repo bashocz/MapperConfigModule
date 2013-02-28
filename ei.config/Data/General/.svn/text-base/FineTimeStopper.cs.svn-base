@@ -1,0 +1,63 @@
+using System;
+using System.Diagnostics;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading;
+
+namespace Mapper.Common
+{
+    /// <summary>
+    /// Class represents the time stopper.
+    /// </summary>
+    public class FineTimeStopper
+    {
+        #region private fields
+
+        private bool isStarted;
+
+        private long startCounter;
+
+        private long endCounter;
+
+        #endregion
+
+        #region constructors
+
+        public FineTimeStopper()
+        {
+        }
+
+        #endregion
+
+        #region public methods
+
+        public void BeginWait(int millisecondsDelay)
+        {
+            startCounter = Stopwatch.GetTimestamp();
+            endCounter = startCounter + (long)((Stopwatch.Frequency * millisecondsDelay) / 1000);
+            isStarted = true;
+        }
+
+        public void EndWait()
+        {
+            if (!isStarted)
+                return;
+
+            int endTime = (int)((endCounter - Stopwatch.GetTimestamp()) / (Stopwatch.Frequency / 1000));
+
+            if (endTime > 20)
+                Thread.Sleep(endTime - 20);
+
+            while (Stopwatch.GetTimestamp() < endCounter)
+            { /* wait till end. */ }
+        }
+
+        public void Wait(int millisecondsDelay)
+        {
+            BeginWait(millisecondsDelay);
+            EndWait();
+        }
+
+        #endregion
+    }
+}

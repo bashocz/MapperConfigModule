@@ -1,0 +1,78 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Mapper.Common
+{
+    internal class XmlOldEg4090 : XmlOldBase
+    {
+        #region private fields
+
+        private SelfManagedXmlElement proberElement;
+        private SelfManagedXmlElement probersElement;
+        private SelfManagedXmlElement egElement;
+        
+        private BooleanXmlElement sendProfileDataElement;
+        private EnumXmlElement<EgCommunicationType> communicationTypeElement;
+
+        private XmlOldGpib gpibElement;
+        private XmlOldSerial serialElement;
+
+        #endregion
+
+        #region constructors
+
+        public XmlOldEg4090()
+        {
+            proberElement = new SelfManagedXmlElement("Prober");
+            rootElement.AddChild(proberElement);
+
+            probersElement = new SelfManagedXmlElement("Probers");
+            proberElement.AddChild(probersElement);
+
+            egElement = new SelfManagedXmlElement("EG4090");
+            egElement.ClearAllChildren = true;
+            probersElement.AddChild(egElement);
+
+            sendProfileDataElement = new BooleanXmlElement("SendProfileData", false);
+            egElement.AddChild(sendProfileDataElement);
+
+            communicationTypeElement = new EnumXmlElement<EgCommunicationType>("CommunicationType", EgCommunicationType.GPIB);
+            egElement.AddChild(communicationTypeElement);
+
+            gpibElement = new XmlOldGpib();
+            egElement.AddChild(gpibElement.XmlNode);
+
+            serialElement = new XmlOldSerial();
+            egElement.AddChild(serialElement.XmlNode);
+        }
+
+        #endregion
+
+        #region public properties
+
+        public bool SendProfileData
+        {
+            get { return sendProfileDataElement.Value; }
+            set { sendProfileDataElement.Value = value; }
+        }
+
+        public EgCommunicationType CommunicationType
+        {
+            get { return communicationTypeElement.Value; }
+            set { communicationTypeElement.Value = value; }
+        }
+
+        public XmlOldGpib Gpib
+        {
+            get { return gpibElement; }
+        }
+
+        public XmlOldSerial Serial
+        {
+            get { return serialElement; }
+        }
+
+        #endregion
+    }
+}

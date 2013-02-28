@@ -1,0 +1,165 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Mapper.Common
+{
+    internal class XmlOldMethods : XmlOldBase
+    {
+        #region private fields
+
+        private BooleanXmlElement _isNeverTouchOutsideWafer;
+        private IntegerXmlElement _maxTouchdownsOnDie;
+
+
+        private BooleanXmlElement _isAutoSpToUpElement;
+
+        private BooleanXmlElement _isEpWaferElement;
+        private BooleanXmlElement _isEpPcMarkElement;
+
+        private EnumXmlElement<SmartSamplingMode> _sspModeElement;
+
+        private BooleanXmlElement _isSspSingleFirstRowElement;
+        private BooleanXmlElement _isCpSingleChessboardElement;
+        private BooleanXmlElement _isSspSingleChessboardElement;
+        private BooleanXmlElement _isSspMultiFirstRowElement;
+        private BooleanXmlElement _isCpMultiChessboardElement;
+        private BooleanXmlElement _isSspMultiChessboardElement;
+
+        private BooleanXmlElement _isAoiGoodDieCounterElement;
+
+        #endregion
+
+        #region constructors
+
+        public XmlOldMethods()
+        {
+            configElement = new SelfManagedXmlElement("ProcessMethods");
+            configElement.ClearAllChildren = true;
+            rootElement.AddChild(configElement);
+
+            _isNeverTouchOutsideWafer = new BooleanXmlElement("SupNeverTouchOutsideWafer", true);
+            configElement.AddChild(_isNeverTouchOutsideWafer);
+
+            _maxTouchdownsOnDie = new IntegerXmlElement("SupMaxTouchdownsOnDie", 3);
+            configElement.AddChild(_maxTouchdownsOnDie);
+
+            _isAutoSpToUpElement = new BooleanXmlElement("IsAutoSpToUp", false);
+            configElement.AddChild(_isAutoSpToUpElement);
+
+            _isEpWaferElement = new BooleanXmlElement("IsEdgeProbeWafer", false);
+            configElement.AddChild(_isEpWaferElement);
+
+            _isEpPcMarkElement = new BooleanXmlElement("IsEdgeProbePcMark", false);
+            configElement.AddChild(_isEpPcMarkElement);
+
+            _sspModeElement = new EnumXmlElement<SmartSamplingMode>("SmartSamplingMode", SmartSamplingMode.Standard);
+            configElement.AddChild(_sspModeElement);
+
+            _isSspSingleFirstRowElement = new BooleanXmlElement("IsSspSingleFirstRow", false);
+            configElement.AddChild(_isSspSingleFirstRowElement);
+
+            _isCpSingleChessboardElement = new BooleanXmlElement("IsCpSingleChessboard", false);
+            configElement.AddChild(_isCpSingleChessboardElement);
+
+            _isSspSingleChessboardElement = new BooleanXmlElement("IsSspSingleChessboard", false);
+            configElement.AddChild(_isSspSingleChessboardElement);
+
+            _isSspMultiFirstRowElement = new BooleanXmlElement("IsSspMultiFirstRow", true);
+            configElement.AddChild(_isSspMultiFirstRowElement);
+
+            _isCpMultiChessboardElement = new BooleanXmlElement("IsCpMultiChessboard", false);
+            configElement.AddChild(_isCpMultiChessboardElement);
+
+            _isSspMultiChessboardElement = new BooleanXmlElement("IsSspMultiChessboard", false);
+            configElement.AddChild(_isSspMultiChessboardElement);
+
+            _isAoiGoodDieCounterElement = new BooleanXmlElement("IsAoiGoodDieCounter", false);
+            configElement.AddChild(_isAoiGoodDieCounterElement);
+        }
+
+        #endregion
+
+        #region public properties
+
+        public bool IsSupNeverTouchOutsideWafer
+        {
+            get { return _isNeverTouchOutsideWafer.Value; }
+            set { _isNeverTouchOutsideWafer.Value = value; }
+        }
+
+        public int SupMaxTouchdownsOnDie
+        {
+            get { return _maxTouchdownsOnDie.Value; }
+            set { _maxTouchdownsOnDie.Value = value; }
+        }
+
+        public bool IsAutoSpToUp
+        {
+            get { return _isAutoSpToUpElement.Value; }
+            set { _isAutoSpToUpElement.Value = value; }
+        }
+
+        public bool IsEpWafer
+        {
+            get { return _isEpWaferElement.Value; }
+            set { _isEpWaferElement.Value = value; }
+        }
+
+        public bool IsEpPcMark
+        {
+            get { return _isEpPcMarkElement.Value; }
+            set { _isEpPcMarkElement.Value = value; }
+        }
+
+        public SmartSamplingMode SspMode
+        {
+            get { return _sspModeElement.Value; }
+            set { _sspModeElement.Value = value; }
+        }
+
+        public bool IsSspSingleFirstRow
+        {
+            get { return _isSspSingleFirstRowElement.Value; }
+            set { _isSspSingleFirstRowElement.Value = value; }
+        }
+
+        public bool IsCpSingleChessboard
+        {
+            get { return _isCpSingleChessboardElement.Value; }
+            set { _isCpSingleChessboardElement.Value = value; }
+        }
+
+        public bool IsSspSingleChessboard
+        {
+            get { return _isSspSingleChessboardElement.Value; }
+            set { _isSspSingleChessboardElement.Value = value; }
+        }
+
+        public bool IsSspMultiFirstRow
+        {
+            get { return _isSspMultiFirstRowElement.Value; }
+            set { _isSspMultiFirstRowElement.Value = value; }
+        }
+
+        public bool IsCpMultiChessboard
+        {
+            get { return _isCpMultiChessboardElement.Value; }
+            set { _isCpMultiChessboardElement.Value = value; }
+        }
+
+        public bool IsSspMultiChessboard
+        {
+            get { return _isSspMultiChessboardElement.Value; }
+            set { _isSspMultiChessboardElement.Value = value; }
+        }
+
+        public bool IsAoiGoodDieCounter
+        {
+            get { return _isAoiGoodDieCounterElement.Value; }
+            set { _isAoiGoodDieCounterElement.Value = value; }
+        }
+
+        #endregion
+    }
+}

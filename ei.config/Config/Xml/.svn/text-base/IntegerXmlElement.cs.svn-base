@@ -1,0 +1,96 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Mapper.Common
+{
+    /// <summary>
+    /// Self managed XmlElement with integer value.
+    /// </summary>
+    public class IntegerXmlElement : ValueXmlElement
+    {
+        #region private fields
+
+        private int minimum = Int32.MinValue;
+        private int maximum = Int32.MaxValue;
+
+        #endregion
+
+        #region constructors
+
+        /// <summary>
+        /// Creates the new instance.
+        /// </summary>
+        /// <param name="name">The name of the element.</param>
+        /// <param name="defaultValue">The default integer value for the element.</param>
+        public IntegerXmlElement(string name, int defaultValue) : base(name, defaultValue) { }
+
+        #endregion
+
+        #region protected methods
+
+        protected override object ParseValue(string text)
+        {
+            int value = Convert.ToInt32(text);
+            CheckRange(value);
+            return value;
+        }
+
+        #endregion
+
+        #region private methods
+
+        /// <summary>
+        /// Checks if the value is within min and max range.
+        /// </summary>
+        /// <param name="value">The value to check.</param>
+        private void CheckRange(int value)
+        {
+            if (value < minimum)
+            {
+                throw new FormatException("parsed value " + value + " < minimum of " + minimum);
+            }
+            if (value > maximum)
+            {
+                throw new FormatException("parsed value " + value + " > maximum of " + maximum);
+            }
+        }
+
+        #endregion
+
+        #region properties
+
+        /// <summary>
+        /// The integer value of the element.
+        /// </summary>
+        public int Value
+        {
+            get { return (int)ElementValue; }
+            set
+            {
+                CheckRange(value);
+                ElementValue = value;
+            }
+        }
+
+        /// <summary>
+        /// Minimum allowed value for the value.
+        /// </summary>
+        public int Minimum
+        {
+            get { return minimum; }
+            set { minimum = value; }
+        }
+
+        /// <summary>
+        /// Maximum allowed value for the value.
+        /// </summary>
+        public int Maximum
+        {
+            get { return maximum; }
+            set { maximum = value; }
+        }
+
+        #endregion
+    }
+}

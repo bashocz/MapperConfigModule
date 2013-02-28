@@ -1,0 +1,281 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C7366791-B2B6-4051-9E9B-C1940C9B8062}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EI.Config</RootNamespace>
+    <AssemblyName>ei.config</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Config\Data\Automations\ShiftedAlignmentConfigData.cs" />
+    <Compile Include="Config\Data\Automations\IncompleteProbeConfigData.cs" />
+    <Compile Include="Config\Data\Base\List\LongPauseEventListData.cs" />
+    <Compile Include="Config\Data\LongPauseEventConfigData.cs" />
+    <Compile Include="Config\Data\ProcessMethods\AoiConfigData.cs" />
+    <Compile Include="Config\Data\ProcessMethods\SupConfigData.cs" />
+    <Compile Include="Config\Xml\LongPauseEventXmlElement.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldIncompleteProbe.cs" />
+    <Compile Include="Data\Bin.cs" />
+    <Compile Include="Data\DrawProperty.cs" />
+    <Compile Include="Data\General\LogIt.cs" />
+    <Compile Include="Data\General\LogLevel.cs" />
+    <Compile Include="Data\ParsedLaserscribe.cs" />
+    <Compile Include="Data\ParsedLot.cs" />
+    <Compile Include="Data\WaferInfo.cs" />
+    <Compile Include="Data\Enums\AllowedActionType.cs" />
+    <Compile Include="Config\Base\IBaseConfigData.cs" />
+    <Compile Include="Config\Base\BaseConfigData.cs" />
+    <Compile Include="Config\ConfigCache.cs" />
+    <Compile Include="Config\Constants.cs" />
+    <Compile Include="Config\Data\Base\List\ColorPropertyListData.cs" />
+    <Compile Include="Config\Data\Base\List\ConsecutiveFailCustomRuleListData.cs" />
+    <Compile Include="Config\Data\Base\List\CultureListData.cs" />
+    <Compile Include="Config\Data\Base\List\CustomScriptListData.cs" />
+    <Compile Include="Config\Data\Base\List\DefaultBinListData.cs" />
+    <Compile Include="Config\Data\Base\List\HotKeysListData.cs" />
+    <Compile Include="Config\Data\Base\List\LaserscribeFormatListData.cs" />
+    <Compile Include="Config\Data\Base\List\LaserscribeLotFilterListData.cs" />
+    <Compile Include="Config\Data\Base\List\PassListData.cs" />
+    <Compile Include="Config\Data\Base\List\ProberIdListData.cs" />
+    <Compile Include="Config\Data\Base\List\TesterIdListData.cs" />
+    <Compile Include="Config\Data\Base\List\WaferInfoListData.cs" />
+    <Compile Include="Config\Data\Base\List\WsAddressListData.cs" />
+    <Compile Include="Config\Data\Base\Struct\ConsecutiveFailCustomRuleData.cs" />
+    <Compile Include="Config\Data\Base\Struct\BinData.cs" />
+    <Compile Include="Config\Data\Base\Struct\PassData.cs" />
+    <Compile Include="Config\Data\Base\Struct\LaserscribeLotFilterData.cs" />
+    <Compile Include="Config\Data\Base\Struct\LaserscribeFormatData.cs" />
+    <Compile Include="Config\Data\Base\Struct\CustomScriptData.cs" />
+    <Compile Include="Config\Data\Base\Struct\CultureData.cs" />
+    <Compile Include="Config\Data\DialogConfigData.cs" />
+    <Compile Include="Config\Data\EventConfigData.cs" />
+    <Compile Include="Config\Data\HotKeysConfigData.cs" />
+    <Compile Include="Config\Data\LotSearchConfigData.cs" />
+    <Compile Include="Config\Data\Probers\Uf2000ConfigData.cs" />
+    <Compile Include="Config\Data\Probers\Telp8ConfigData.cs" />
+    <Compile Include="Config\Data\ProcessMethods\FpConfigData.cs" />
+    <Compile Include="Config\Data\ProcessMethods\SiConfigData.cs" />
+    <Compile Include="Config\Data\ProcessMethods\EiConfigData.cs" />
+    <Compile Include="Config\Data\Testers\PowertechConfigData.cs" />
+    <Compile Include="Config\Data\Testers\HpConfigData.cs" />
+    <Compile Include="Config\Data\Testers\PeiConfigData.cs" />
+    <Compile Include="Config\Data\Testers\MaverickConfigData.cs" />
+    <Compile Include="Config\Data\Testers\DualVersatestConfigData.cs" />
+    <Compile Include="Config\Data\Testers\KeithleyConfigData.cs" />
+    <Compile Include="Config\Data\ProcessMethods\MeConfigData.cs" />
+    <Compile Include="Config\Data\Testers\VersatestConfigData.cs" />
+    <Compile Include="Config\Xml\EndProcessMethodsXmlElement.cs" />
+    <Compile Include="Config\Xml\StartProcessMethodsXmlElement.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\Prober\XmlOldUf2000.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\Tester\XmlOldPowertech.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\Tester\XmlOldHp.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\Tester\XmlOldPei.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\Tester\XmlOldMaverick.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldEvent.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\Prober\XmlOldTelp8.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\Tester\XmlOldKeithley.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldFpMethods.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldLotSearch.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldMapEdit.cs" />
+    <Compile Include="Config\GuiConfigData.cs" />
+    <Compile Include="Config\Data\Base\Data\BinListData.cs" />
+    <Compile Include="Config\Data\Base\ValueListData.cs" />
+    <Compile Include="Config\Data\Base\Data\BooleanData.cs" />
+    <Compile Include="Config\Data\Base\BaseData.cs" />
+    <Compile Include="Config\Data\Base\CollectionData.cs" />
+    <Compile Include="Config\Data\Base\Collection\GroupData.cs" />
+    <Compile Include="Config\Data\Base\Collection\StructData.cs" />
+    <Compile Include="Config\Data\Base\Collection\ListData.cs" />
+    <Compile Include="Config\Data\Base\Data\EnumData.cs" />
+    <Compile Include="Config\Data\Base\Data\DoubleData.cs" />
+    <Compile Include="Config\Data\Base\Data\IntegerData.cs" />
+    <Compile Include="Config\Data\Base\Data\StringData.cs" />
+    <Compile Include="Config\Data\Base\Struct\ColorPropertyData.cs" />
+    <Compile Include="Config\Data\Base\ValueData.cs" />
+    <Compile Include="Config\Data\LotInfoConfigData.cs" />
+    <Compile Include="Config\Data\ProcessMethods\CpConfigData.cs" />
+    <Compile Include="Config\Data\ProcessMethods\EpConfigData.cs" />
+    <Compile Include="Config\Data\ProcessMethods\PassConfigData.cs" />
+    <Compile Include="Config\Data\ProcessMethods\SpConfigData.cs" />
+    <Compile Include="Config\Data\ProcessMethods\SspConfigData.cs" />
+    <Compile Include="Config\Data\ProcessMethods\UpConfigData.cs" />
+    <Compile Include="Config\XmlBinder\ConfigXmlBinder.cs" />
+    <Compile Include="Config\Data\WmxmlConfigData.cs" />
+    <Compile Include="Config\XmlBinder\BaseXmlBinder.cs" />
+    <Compile Include="Config\XmlBinder\LotXmlBinder.cs" />
+    <Compile Include="Config\XmlBinder\MapperXmlBinder.cs" />
+    <Compile Include="Config\XmlBinder\ProberXmlBinder.cs" />
+    <Compile Include="Config\XmlBinder\DriverXmlBinder.cs" />
+    <Compile Include="Config\XmlBinder\TesterXmlBinder.cs" />
+    <Compile Include="Config\XmlBinder\MainConfigXmlBinder.cs" />
+    <Compile Include="Config\Data\ConfigConfigData.cs" />
+    <Compile Include="Data\AllowedAction.cs" />
+    <Compile Include="Data\MaskFormat.cs" />
+    <Compile Include="Data\ProcessMethod.cs" />
+    <Compile Include="Data\ThresholdYield.cs" />
+    <Compile Include="Data\Culture.cs" />
+    <Compile Include="Config\XmlBinder\OldConfigXmlBinder.cs" />
+    <Compile Include="Config\Data\Automations\ConsecutiveFailConfigData.cs" />
+    <Compile Include="Config\Data\Automations\CutoffConfigData.cs" />
+    <Compile Include="Config\Data\Automations\KelvinDieConfigData.cs" />
+    <Compile Include="Config\Data\Automations\LaserscribeConfigData.cs" />
+    <Compile Include="Data\LotFilter.cs" />
+    <Compile Include="Config\Data\Automations\ReprobeConfigData.cs" />
+    <Compile Include="Config\Data\CheckinConfigData.cs" />
+    <Compile Include="Config\Data\ColorConfigData.cs" />
+    <Compile Include="Config\Data\CustomScriptConfigData.cs" />
+    <Compile Include="Config\Data\DirConfigData.cs" />
+    <Compile Include="Config\Data\Drivers\GpibConfigData.cs" />
+    <Compile Include="Config\Data\Drivers\SerialPortConfigData.cs" />
+    <Compile Include="Config\Data\Drivers\TcpIpConfigData.cs" />
+    <Compile Include="Config\Data\EnvGeneralConfigData.cs" />
+    <Compile Include="Config\Data\GeneralConfigData.cs" />
+    <Compile Include="Config\Data\GenesisConfigData.cs" />
+    <Compile Include="Config\Data\ProcessMethodConfigData.cs" />
+    <Compile Include="Config\Data\NewtonConfigData.cs" />
+    <Compile Include="Config\Data\ProbeInTempConfigData.cs" />
+    <Compile Include="Config\Data\ProberConfigData.cs" />
+    <Compile Include="Config\Data\Probers\Eg2001ConfigData.cs" />
+    <Compile Include="Config\Data\Probers\Eg4090ConfigData.cs" />
+    <Compile Include="Config\Data\Probers\GsiConfigData.cs" />
+    <Compile Include="Config\Data\Probers\Kla1007ConfigData.cs" />
+    <Compile Include="Config\Data\Probers\VirtualProberConfigData.cs" />
+    <Compile Include="Config\Data\RtmConfigData.cs" />
+    <Compile Include="Config\Data\TesterConfigData.cs" />
+    <Compile Include="Config\Data\Testers\DtsConfigData.cs" />
+    <Compile Include="Data\Enums\TmtCommunicationType.cs" />
+    <Compile Include="Data\Enums\TmtCommandSet.cs" />
+    <Compile Include="Data\Enums\EgCommunicationType.cs" />
+    <Compile Include="Data\Enums\TowerLightType.cs" />
+    <Compile Include="Data\Enums\ManualInkingMode.cs" />
+    <Compile Include="Data\Enums\EagleCommandSet.cs" />
+    <Compile Include="Data\Enums\EagleCommunicationType.cs" />
+    <Compile Include="Config\Data\Testers\EagleConfigData.cs" />
+    <Compile Include="Config\Data\Testers\FetConfigData.cs" />
+    <Compile Include="Config\Data\Testers\PftConfigData.cs" />
+    <Compile Include="Config\Data\Testers\TmtConfigData.cs" />
+    <Compile Include="Config\Data\Testers\VirtualTesterConfigData.cs" />
+    <Compile Include="Config\ConfigData.cs" />
+    <Compile Include="Config\Xml\StringListXmlElement.cs" />
+    <Compile Include="Config\Xml\XmlConfig\XmlConfig.cs" />
+    <Compile Include="Config\Xml\XmlConfig\XmlBase.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\Tester\XmlOldVirtualTester.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\Tester\XmlOldTmt.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\Tester\XmlOldPft.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\Tester\XmlOldFet.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\Tester\XmlOldEagle.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\Tester\XmlOldDts.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldTester.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldProber.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\Prober\XmlOldVirtualProber.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\Prober\XmlOldGsi.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\Driver\XmlOldTcpIp.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\Prober\XmlOldKla1007.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\Driver\XmlOldSerial.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\Driver\XmlOldGpib.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\Prober\XmlOldEg4090.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\Prober\XmlOldEg2001.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldReprobe.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldLaserscribe.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldKelvinDie.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldCutOff.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldConsecutiveFail.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldProbeInTemp.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldRtm.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldNewton.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldCustomScripts.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldMethods.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldCheckin.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldGenesis.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldDb.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldDir.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldColor.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldEnvGeneral.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldGeneral.cs" />
+    <Compile Include="Config\Xml\XmlOldConfig\XmlOldBase.cs" />
+    <Compile Include="Data\ConsecutiveFailCustomRule.cs" />
+    <Compile Include="Data\General\LotComment.cs" />
+    <Compile Include="Data\CustomScript.cs" />
+    <Compile Include="Data\Enums\ConfigType.cs" />
+    <Compile Include="Data\Enums\ProberCommandSequence.cs" />
+    <Compile Include="Data\Enums\EdgeInkingMode.cs" />
+    <Compile Include="Data\Pass.cs" />
+    <Compile Include="Data\Enums\FileFormat.cs" />
+    <Compile Include="Data\Enums\InkingMode.cs" />
+    <Compile Include="Data\Enums\WmxmlVersion.cs" />
+    <Compile Include="Data\Enums\SmartSamplingMode.cs" />
+    <Compile Include="Data\Enums\SystemType.cs" />
+    <Compile Include="Data\Enums\ProcessMode.cs" />
+    <Compile Include="Data\Enums\ProcessEvent.cs" />
+    <Compile Include="Data\General\EnumDescription.cs" />
+    <Compile Include="Config\Xml\BooleanXmlAttribute.cs" />
+    <Compile Include="Config\Xml\BooleanXmlElement.cs" />
+    <Compile Include="Data\LaserscribeFormat.cs" />
+    <Compile Include="Config\Xml\ColoresXmlElement.cs" />
+    <Compile Include="Config\Xml\CulturesXmlElement.cs" />
+    <Compile Include="Config\Xml\CustomRulesXmlElement.cs" />
+    <Compile Include="Config\Xml\CustomScriptsXmlElement.cs" />
+    <Compile Include="Config\Xml\DoubleXmlElement.cs" />
+    <Compile Include="Config\Xml\EnumXmlElement.cs" />
+    <Compile Include="Config\Xml\IntegerXmlAttribute.cs" />
+    <Compile Include="Config\Xml\IntegerXmlElement.cs" />
+    <Compile Include="Config\Xml\LaserscribeFormatsXmlElement.cs" />
+    <Compile Include="Config\Xml\LotFiltersXmlElement.cs" />
+    <Compile Include="Config\Xml\SelfManagedXmlElement.cs" />
+    <Compile Include="Config\Xml\SelfManagedXmlNode.cs" />
+    <Compile Include="Config\Xml\StringXmlAttribute.cs" />
+    <Compile Include="Config\Xml\StringXmlElement.cs" />
+    <Compile Include="Config\Xml\ValueXmlAttribute.cs" />
+    <Compile Include="Config\Xml\ValueXmlElement.cs" />
+    <Compile Include="Data\Enums\DrawPropertyType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>mkdir $(SolutionDir)Build
+copy $(TargetPath) $(SolutionDir)Build</PostBuildEvent>
+  </PropertyGroup>
+</Project>

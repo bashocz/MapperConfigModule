@@ -1,0 +1,118 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml;
+
+namespace EI.Config
+{
+    public class GeneralConfigData : BaseConfigData<GeneralConfigData>
+    {
+        #region private fields
+
+        private bool loginEnabled;
+
+        private SystemType systemType;
+        private LogLevel logLevel;
+        private bool longPauseEnabled;
+        private int longPauseDelayTime;
+
+        private TowerLightType towerLightType;
+        private int towerLightPort;
+
+        private bool useTrakLot;
+
+        #endregion
+
+        #region constructors
+
+        public GeneralConfigData()
+            : base()
+        {
+            SetDefault();
+        }
+
+        #endregion
+
+        #region public methods
+
+        public override void SetDefault()
+        {
+            loginEnabled = true;
+            systemType = SystemType.Prober;
+            logLevel = LogLevel.Info;
+            longPauseEnabled = true;
+            longPauseDelayTime = 600;
+
+            towerLightType = TowerLightType.Off;
+            towerLightPort = 0x378;
+
+            useTrakLot = true;
+        }
+
+        #endregion
+
+        #region properties
+
+        public bool LoginEnabled
+        {
+            get { return loginEnabled; }
+            set { SetValue(ref loginEnabled, value); }
+        }
+
+        public SystemType SystemType
+        {
+            get { return systemType; }
+            set { SetEnumValue(ref systemType, value); }
+        }
+
+        public LogLevel LogLevel
+        {
+            get { return logLevel; }
+            set { SetEnumValue(ref logLevel, value); }
+        }
+
+        public bool LongPauseEnabled
+        {
+            get { return longPauseEnabled; }
+            set { SetValue(ref longPauseEnabled, value); }
+        }
+
+        public int LongPauseDelayTime
+        {
+            get { return longPauseDelayTime; }
+            set { SetValue(ref longPauseDelayTime, value); }
+        }
+
+        public TowerLightType TowerLightType
+        {
+            get { return towerLightType; }
+            set { SetEnumValue(ref towerLightType, value); }
+        }
+
+        public bool TowerLightEnabled
+        {
+            get { return towerLightType != TowerLightType.Off; }
+            set
+            {
+                if (value)
+                    SetEnumValue(ref towerLightType, TowerLightType.LptControlled);
+                else
+                    SetEnumValue(ref towerLightType, TowerLightType.Off);
+            }
+        }
+
+        public int TowerLightPort
+        {
+            get { return towerLightPort; }
+            set { SetValue(ref towerLightPort, value); }
+        }
+
+        public bool UseTrakLot
+        {
+            get { return useTrakLot; }
+            set { SetValue(ref useTrakLot, value); }
+        }
+
+        #endregion
+    }
+}
